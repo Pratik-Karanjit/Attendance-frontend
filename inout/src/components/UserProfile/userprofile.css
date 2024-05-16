@@ -1,0 +1,53 @@
+.profile-card .row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.profile-card .row h2 {
+  color: #4d4e50;
+  font-size: 30px;
+}
+.profile-card .row button {
+  background-color: #da2424;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 15px;
+  font-weight: 550;
+}
+
+.profile-card .fields {
+  margin: 20px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background-color: white;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.profile-card .fields label {
+  font-size: 25px;
+  color: #4d4e50;
+  font-weight: 600;
+}
+
+.profile-card .fields .edit-profile {
+  color: white;
+  display: flex;
+}
+
+.profile-card .fields .edit-profile button {
+  border: none;
+  background-color: transparent;
+  color: white;
+  background-color: #32ca39;
+  padding: 10px 5px;
+  font-size: 15px;
+  border-radius: 5px;
+}
+
+.profile-card .fields .edit-profile button:hover {
+  cursor: pointer;
+}

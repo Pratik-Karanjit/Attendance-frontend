@@ -1,0 +1,101 @@
+.manual-attendance .attendance .form-attendance .user{
+    background-color: #eeeeee;
+    border-radius: 5px;
+    padding: 10px;
+    display: inline-block
+}
+
+.manual-attendance .attendance {
+
+}
+
+.pop-up-update{
+   
+    border-radius: 10px;
+    padding: 20px 30px ;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background-color: white !important;
+    width: 70vh;
+}
+.pop-up-update .info{
+    background-color: white !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+ }
+
+ .error-update{
+    padding: 20px 30px ;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 70vh;
+    transform: translate(-50%,-50%);
+    z-index: 100;
+    background-color: rgb(202, 57, 57);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+ }
+ .error-update button{
+    background-color: white;
+    border: none;
+    padding: 5px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+ }
+
+.pop-up-update .btns{
+    display: flex;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.pop-up-update .btns button{
+    background-color:#1b1d1b ;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+.error-message-update{
+    position: fixed;
+    top: 110px;
+    z-index: 100;
+    right: 100px;
+    
+   
+    
+}
+
+.pop-up-update .btns .success-btn{
+background-color:#32ca39 ;
+padding: 10px 15px;
+font-size: 15px;
+color: white;
+border: none;
+cursor: pointer;
+border-radius: 10px;
+}
+
+.pop-up-update .btns .reject-btn{
+    background-color:#f55e5e ;
+    padding: 10px 15px;
+    cursor: pointer;
+    font-size: 15px;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    
+}

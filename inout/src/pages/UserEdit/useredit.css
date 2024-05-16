@@ -1,0 +1,125 @@
+.update-card {
+  background-color: white;
+  padding: 15px;
+  border-radius: 15px;
+}
+
+.update-card .error-message {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.update-card h2 {
+  color: #4d4e50;
+  margin-bottom: 15px;
+  font-size: 35px;
+}
+.loader-edit {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.update-card .fields label {
+  color: #4d4e50;
+  margin-bottom: 10px;
+  font-size: 20px;
+  display: block;
+  font-weight: 550;
+}
+
+.update-card .fields input {
+  margin-bottom: 10px;
+  border: none;
+  background-color: rgb(224, 222, 222);
+  padding: 10px;
+  width: 300px;
+  border-radius: 5px;
+}
+
+.update-card .fields input:focus {
+  outline: none;
+}
+
+.update-card .fields .btns {
+  display: flex;
+  gap: 10px;
+}
+.update-card .fields .update-btn button {
+  background-color: #32ca39;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 5px;
+  margin: 15px 0px;
+}
+.pop-up {
+  display: fixed;
+  top: 50%;
+  right: 50%;
+  width: 500px;
+  transform: translate(-50%, -50%);
+  background-color: transparent;
+  box-shadow: none;
+}
+.pop-up .error {
+  background-color: rgb(228, 66, 66);
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  align-items: center;
+  gap: 10px;
+}
+
+.pop-up .info {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  gap: 10px;
+}
+
+.blur {
+  filter: blur(3px);
+}
+
+.pop-up .error .btns {
+  display: flex;
+  gap: 10px;
+  border: none;
+}
+
+.pop-up .btns button {
+  border: none;
+  border-radius: 5px;
+  background-color: white;
+  color: black;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.pop-up .info .btns button {
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.update-card .fields .delete-btn button {
+  background-color: #d85e5b;
+  border: none;
+  color: white;
+  padding: 10px;
+  font-size: 15px;
+  font-weight: 500;
+  border-radius: 5px;
+  margin: 15px 0px;
+}

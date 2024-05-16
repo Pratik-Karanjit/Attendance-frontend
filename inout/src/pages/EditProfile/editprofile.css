@@ -1,0 +1,89 @@
+.edit-card {
+  background-color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  margin-bottom: 50px;
+  padding-bottom: 30px;
+}
+
+.pop-up {
+  position: fixed;
+  right: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.blur {
+  filter: blur(10px);
+}
+
+.messages {
+  position: fixed;
+  z-index: 100;
+  right: 100px;
+  top: 100px;
+  display: flex;
+  flex-direction: column;
+  gap: -20px;
+}
+.edit-card .fields {
+  margin-bottom: 20px;
+}
+
+.edit-card .fields label {
+  color: #4d4e50;
+  font-size: 20px;
+  font-weight: 600;
+}
+.edit-card .fields .value {
+  background-color: rgb(235, 235, 235);
+  display: block;
+  margin: 10px 0px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.edit-card h2 {
+  color: #4d4e50;
+  margin: 15px 0px;
+  margin-bottom: 25px;
+}
+
+.edit-card .password h2 {
+  font-size: 20px;
+  font-weight: 600;
+}
+.edit-card .password .password-input input {
+  padding: 10px;
+  background-color: rgb(235, 235, 235);
+  width: 300px;
+  border: none;
+}
+
+.edit-card .password .password-input {
+  position: relative;
+}
+
+.edit-card .password .hide {
+  position: absolute;
+  right: 590px;
+  bottom: 7px;
+  z-index: 3;
+}
+
+.edit-card .change-password {
+  background-color: #32ca39;
+  color: white;
+  font: 15px;
+  padding: 10px;
+  border-radius: 5px;
+  display: inline-block;
+  margin-top: 30px;
+}
+
+.edit-card .change-password:hover {
+  cursor: pointer;
+}

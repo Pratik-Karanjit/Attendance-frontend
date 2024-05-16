@@ -1,0 +1,54 @@
+.layout {
+  display: flex;
+  position: relative;
+}
+.layout .leftpart {
+  position: sticky;
+  top: 0px;
+  left: 0px;
+  width: 275px;
+  /* display: block; */
+}
+
+.layout .right {
+  width: 100%;
+}
+
+.layout .right .paragraph {
+  margin: 30px 0px;
+}
+.container {
+  width: 85%;
+  margin: auto;
+}
+.blur {
+  filter: blur(10px);
+}
+
+@media only screen and (max-width: 670px) {
+  .layout {
+    display: block;
+  }
+
+  .layout {
+    display: flex;
+    position: relative;
+  }
+  .layout .leftpart {
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    width: 250px;
+    display: none;
+  }
+
+  .layout .right {
+    width: 100vw;
+    display: flex;
+  }
+
+  .container {
+    width: 85%;
+    margin: auto;
+  }
+}

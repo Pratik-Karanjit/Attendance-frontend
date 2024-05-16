@@ -1,0 +1,271 @@
+.recent-attendance {
+  width: 100%;
+}
+.card-currentdate {
+  border-radius: 10px;
+  display: flex;
+  align-items: start;
+  justify-content: start;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 10px;
+}
+.manual-attendance {
+  display: flex;
+  justify-content: space-between;
+  align-items: start;
+  gap: 20px;
+  margin-top: 20px;
+  position: relative;
+}
+.pop-up-manual-attendance {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+
+  z-index: 300;
+  transform: translate(-50%, -50%);
+}
+.pop-up-manual-attendance .error {
+  color: white;
+  padding: 20px;
+  display: flex;
+  z-index: 100;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.pop-up-manual-attendance .info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 100;
+  text-align: center;
+  gap: 20px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Clean box shadow */
+}
+
+.pop-up-manual-attendance .info .btns {
+  display: flex;
+  gap: 20px;
+}
+.pop-up-manual-attendance .info .btns button {
+  border: none;
+  padding: 10px 25px;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.pop-up-manual-attendance button {
+  border: none;
+  padding: 10px 25px;
+
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.manual-attendance .attendance {
+  background-color: white;
+  padding: 15px 20px;
+  color: #54536e;
+  padding-bottom: 20px;
+  border-radius: 10px;
+  width: 100%;
+}
+
+.manual-attendance .attendance .form-attendance .field {
+  display: flex;
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.manual-attendance .attendance .form-attendance {
+  display: flex;
+  gap: 20px;
+  margin: 30px 0px;
+  flex-direction: column;
+}
+
+.manual-attendance .attendance .form-attendance .fields {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.manual-attendance .attendance .form-attendance .values {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.manual-attendance .attendance label {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.manual-attendance .attendance input {
+  border: none;
+  background-color: #eeeeee;
+  color: #54536e;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.manual-attendance .attendance select {
+  border: none;
+  background-color: #eeeeee;
+  color: #54536e;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.manual-attendance .attendance input:focus {
+  outline: none;
+}
+
+.manual-attendance .attendance .description label {
+  color: #db5b5b;
+  font-size: 25px;
+  font-weight: 550;
+}
+
+.manual-attendance .attendance .description textarea {
+  border: none;
+  background-color: #eeeeee;
+  color: #54536e;
+  padding: 10px;
+  border-radius: 0px;
+}
+
+.manual-attendance .attendance .description textarea:focus {
+  outline: none;
+}
+
+.manual-attendance .attendance .description {
+  display: flex;
+
+  flex-direction: column;
+  gap: 12px;
+  margin: 20px 0px;
+}
+/* .manual-attendance .error-manual {
+  position: absolute;
+  top: 30px;
+  right: 20px;
+} */
+
+.manual-attendance .attendance .btn {
+  border-radius: 10px;
+  background-color: #32ca39;
+  padding: 10px 15px;
+  border: none;
+  width: 80px;
+  color: white;
+  font-weight: 500;
+}
+
+.card-currentdate{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 8px;
+  
+}
+
+
+.blur {
+  filter: blur(10px);
+}
+
+.card-currentdate .date {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 10px;
+ 
+
+
+}
+.card-currentdate .colon {
+  font-size: 22px;
+  color: #54536e58;
+  text-decoration: solid;
+}
+.card-currentdate .time {
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 10px;
+ 
+  display: flex;
+  text-align: center;
+  flex-direction: column;
+  justify-content: start;
+  align-items: start;
+
+}
+
+.card-currentdate .row {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  gap: 5px;
+}
+
+.card-currentdate .row .loader{
+  background-color: transparent;
+  scale: 0.4;
+
+}
+
+.card-currentdate .row .year {
+
+
+  color: #c55c5c;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 5px;
+}
+.card-currentdate .row .month {
+
+
+  color: #e0a23a;
+  font-size: 20px;
+  border-radius: 5px;
+  font-weight: 700;
+}
+.card-currentdate .row .day {
+
+
+  color: #a85097;
+  font-size: 20px;
+  font-weight: 700;
+  border-radius: 5px;
+}
+
+@media only screen and (max-width: 960px) {
+  .manual-attendance {
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
+    flex-direction: column-reverse;
+    gap: 20px;
+  }
+
+  .pop-up-manual-attendance {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    transform: translate(-50%, -50%);
+    width: 90%;
+  }
+
+  .header .card-currentdate  {
+display: none;
+  }
+
+
+}

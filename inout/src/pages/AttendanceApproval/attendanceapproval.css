@@ -1,0 +1,45 @@
+.adminrequest-card .manual-attendance{
+margin-top: -35px;
+}
+
+.adminrequest-card .manual-attendance .form-attendance .field p{
+background-color: #eeeeee;
+padding: 10px;
+border-radius: 10px;
+display: inline-block;
+}
+
+.adminrequest-card .manual-attendance .form-attendance .btns{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.adminrequest-card .manual-attendance .form-attendance .btns .btn-reject{
+    border: none;
+    background-color: rgb(238, 74, 45);
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+
+}
+.error-approval{
+    background-color: rgb(241, 64, 64);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    z-index: 100;
+    padding: 20px;
+    border-radius: 10px;
+    transform: translate(-50%,-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.error-approval button{
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
