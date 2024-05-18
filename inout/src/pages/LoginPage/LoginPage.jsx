@@ -113,6 +113,7 @@ import loginMan from "../../photos/login-man.webp";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import Swal from "sweetalert2";
 
 function LoginPage() {
   const dispatch = useDispatch();
@@ -131,10 +132,26 @@ function LoginPage() {
     }
   }, [userInfo]);
 
+  useEffect(() => {
+    if (error) {
+      // Display error message using Swal
+      handleErrorAlert();
+    }
+  }, [error]);
+
   const submitHandler = (e) => {
     e.preventDefault();
     // Dispatch login action
     dispatch(login(email, password));
+  };
+
+  const handleErrorAlert = () => {
+    Swal.fire({
+      title: "Login Error",
+      text: "Incorrect email or password.",
+      icon: "error",
+      confirmButtonText: "OK",
+    });
   };
 
   return (
@@ -199,11 +216,6 @@ function LoginPage() {
               >
                 {loading ? <Loader /> : "Login"}
               </button>
-              {error && (
-                <div className="error-message">
-                  <Message error={error} variant="error" />
-                </div>
-              )}
             </div>
           </div>
         </div>

@@ -23,6 +23,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "save": "^2.9.0",
+    "sweetalert2": "^11.11.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

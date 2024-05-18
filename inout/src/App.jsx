@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
@@ -16,6 +13,8 @@ import AttendancePage from "./pages/AttendancePage/AttendancePage";
 import AdminRequest from "./pages/AdminRequest/AdminRequest";
 import AttendanceApproval from "./pages/AttendanceApproval/AttendanceApproval";
 import AttendanceUpdate from "./pages/AttendanceUpdate/AttendanceUpdate";
+import AdminDashboard from "./pages/AdminDash/AdminDashboard";
+import InternProfile from "./pages/AdminDash/InternProfile";
 
 function App() {
   return (
@@ -23,6 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} exact />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route path="/adminDash" element={<AdminDashboard />} />
         <Route path="/profile" element={<UserDetails />} />
         <Route path="/register" element={<Register />} />
         <Route path="/staffs" element={<StaffPage />} />
@@ -31,6 +31,8 @@ function App() {
         <Route path="/staffs/edit/:id" element={<UserEdit />} />
         <Route path="/staffs/attendance/:id" element={<StaffAttendance />} />
         <Route path="/admin-requests" element={<AdminRequest />} />
+        <Route path="/admin/:internId" element={<InternProfile />} />
+
         <Route
           path="/attendance-approval/:id/:pk"
           element={<AttendanceApproval />}
