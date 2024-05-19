@@ -69,6 +69,7 @@ const AdminDashboard = () => {
     setSelectedMenu(menu);
   };
 
+  //For navigating before
   const goToPreviousMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
