@@ -1,0 +1,84 @@
+@media (max-width: 1000px) and (min-width: 768px) {
+  .left-bar {
+    display: none;
+  }
+  .right-section {
+    width: 100%;
+  }
+  .top-div {
+    width: 100%;
+  }
+}
+
+@media (max-width: 767px) and (min-width: 150px) {
+  .left-bar {
+    display: none;
+  }
+  .right-section {
+    width: 100%;
+  }
+  .overview-div {
+    display: none;
+  }
+  .overview-box {
+    display: none;
+  }
+  .intern-attendance-detail {
+    flex-direction: column;
+  }
+  .intern-detail {
+    width: 100%;
+  }
+  .attendance-detail {
+    width: 100%;
+  }
+  .month-div {
+    top: 0;
+    right: 0;
+  }
+  .attendance-detail-text {
+    padding-left: 0;
+  }
+  .attendance-table td,
+  .attendance-table th {
+    font-size: 12px;
+  }
+  .intern-name,
+  .intern-email {
+    font-size: 14px;
+  }
+  .intern-table {
+    width: 100%;
+  }
+  .intern-detail-table {
+    width: 100% !important;
+  }
+
+  .intern-detail-table tr,
+  .intern-detail-table th,
+  .intern-detail-table td {
+    font-size: 11px !important;
+    padding: 4px 5px;
+  }
+  .view-button {
+    font-size: 10px;
+    padding: 2px 5px;
+    background-color: none;
+    border-radius: 10px;
+  }
+  .table-div {
+    width: 100%;
+  }
+  .intern-search {
+    flex-direction: column;
+  }
+  .intern-search-bar {
+    width: 100%;
+  }
+  .confirm-button {
+    width: 50%;
+  }
+  .top-div {
+    width: 100%;
+  }
+}

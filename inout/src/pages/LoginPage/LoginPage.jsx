@@ -101,8 +101,7 @@
 // export default LoginPage;
 
 import "../../App.css";
-import "../../input.css";
-import "../../output.css";
+import "../../index.css";
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../actions/userActions";

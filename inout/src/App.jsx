@@ -1,4 +1,5 @@
 import "./App.css";
+import "./index.css";
 import { Route, Routes } from "react-router-dom";
 import LoginPage from "./pages/LoginPage/LoginPage";
 import DashboardPage from "./pages/Dashboard/DashboardPage";
@@ -22,7 +23,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LoginPage />} exact />
         <Route path="/dashboard" element={<DashboardPage />} />
-        <Route path="/adminDash" element={<AdminDashboard />} />
+        <Route path="/adminDashboard" element={<AdminDashboard />} />
         <Route path="/profile" element={<UserDetails />} />
         <Route path="/register" element={<Register />} />
         <Route path="/staffs" element={<StaffPage />} />
