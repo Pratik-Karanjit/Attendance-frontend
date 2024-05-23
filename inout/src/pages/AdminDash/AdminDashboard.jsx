@@ -3,6 +3,8 @@ import "../../App.css";
 import "../../Nav.css";
 import skillAcademyLogo from "../../photos/skillxattendance.png";
 import DashboardImage from "../../photos/Dashboard.png";
+import { listUsers } from "../../actions/userActions";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserTie,
@@ -18,6 +20,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SettingsPage from "./SettingsPage";
+import { useDispatch } from "react-redux";
 
 const AdminDashboard = () => {
   const [selectedMenu, setSelectedMenu] = useState("dashboard");
@@ -26,6 +29,7 @@ const AdminDashboard = () => {
   const [extractedData, setExtractedData] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const fetchData = async () => {
     try {
@@ -49,6 +53,10 @@ const AdminDashboard = () => {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    dispatch(listUsers());
+  }, [dispatch]);
 
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
@@ -113,7 +121,7 @@ const AdminDashboard = () => {
       <div>
         {/* Left sidebar */}
         <div className="h-screen fixed l:flex w-1/5 bg-white flex flex-col justify-between left-bar">
-          <div>
+          <div className="w-full">
             <div className="flex justify-center pt-5">
               <img
                 className="skill-img"
@@ -121,8 +129,8 @@ const AdminDashboard = () => {
                 alt="skill academy"
               />
             </div>
-            <div className="flex justify-end">
-              <div className="h-3/6 mt-20 w-5/6 rounded-l-3xl ">
+            <div className="flex justify-end ">
+              <div className="h-3/6 mt-20 w-5/6 rounded-l-3xl  ">
                 <div
                   className={`flex gap-4 h-12 items-center rounded-l-3xl cursor-pointer ${
                     selectedMenu === "dashboard" ? "selected-menu" : ""
@@ -171,8 +179,8 @@ const AdminDashboard = () => {
             </div>
           </div>
 
-          <div>
-            <div className="flex flex-col items-end">
+          <div className="w-full">
+            <div className="flex justify-end">
               <div
                 className={`flex gap-4 h-12 items-center rounded-l-3xl text-black cursor-pointer font-myFont ${
                   selectedMenu === "settings" ? "selected-menu" : ""
@@ -194,7 +202,7 @@ const AdminDashboard = () => {
             </div>
 
             {/* Logout button container */}
-            <div className="flex flex-col items-end">
+            <div className="flex justify-end items-end">
               <div
                 className={` flex gap-4 h-12 items-center rounded-l-3xl text-black cursor-pointer font-myFont mb-20 ${
                   selectedMenu === "logout" ? "selected-menu" : ""
@@ -221,7 +229,7 @@ const AdminDashboard = () => {
         {/* Top right section */}
 
         <div
-          className="w-4/5 flex flex-col absolute right-0 right-section"
+          className="w-4/5 h-full flex flex-col absolute right-0 right-section"
           style={{ backgroundColor: "#F5F5F5" }}
         >
           <div
@@ -247,18 +255,18 @@ const AdminDashboard = () => {
             style={{ background: "#F6F7FB", paddingTop: "6rem" }}
           >
             {selectedMenu === "dashboard" && (
-              <>
+              <div className="bg-slate-100">
                 <p className="px-6 pt-4 font-semibold text-2xl">Overview</p>
                 <div className="w-full h-1/5 flex flex-row p-5 gap-6 overview-div">
                   <div
                     className="bg-slate-300 w-1/3 rounded-xl relative overview-box"
                     style={{ background: "#D3B881" }}
                   >
-                    <div className="flex flex-col p-8 gap-2">
-                      <div className=" text-white text-2xl font-myFont ">
+                    <div className=" flex flex-col p-8 gap-2">
+                      <div className="w-full text-white text-2xl font-myFont ">
                         300
                       </div>
-                      <div className=" text-white text-sm font-myFont">
+                      <div className="w-full text-white text-sm font-myFont">
                         Total employees
                       </div>
                     </div>
@@ -272,8 +280,10 @@ const AdminDashboard = () => {
                     style={{ background: "#D3B881" }}
                   >
                     <div className="flex flex-col p-8 gap-2">
-                      <div className=" text-white text-2xl font-myFont ">5</div>
-                      <div className=" text-white text-sm font-myFont">
+                      <div className="w-full text-white text-2xl font-myFont ">
+                        5
+                      </div>
+                      <div className="w-full text-white text-sm font-myFont">
                         Total admins
                       </div>
                     </div>
@@ -287,10 +297,10 @@ const AdminDashboard = () => {
                     style={{ background: "#D3B881" }}
                   >
                     <div className="flex flex-col p-8 gap-2">
-                      <div className=" text-white text-2xl font-myFont ">
+                      <div className="w-full text-white text-2xl font-myFont ">
                         320
                       </div>
-                      <div className=" text-white text-sm font-myFont">
+                      <div className="w-full text-white text-sm font-myFont">
                         Total users
                       </div>
                     </div>
@@ -300,32 +310,32 @@ const AdminDashboard = () => {
                     />
                   </div>
                 </div>
-                <div className="flex flex-row gap-5 px-5 h-full intern-attendance-detail">
+                <div className="flex flex-row gap-5 px-5 py-5 h-full intern-attendance-detail">
                   <div className="relative w-2/6 h-3/5 p-5 gap-6 bg-white flex flex-col rounded-xl intern-detail">
-                    <div className="flex items-center gap-4 px-5 pt-5">
+                    <div className="flex gap-4 px-5 pt-5 w-full items-start justify-start">
                       <FontAwesomeIcon className="h-5 w-5" icon={faUserGroup} />
                       <p>Intern Lists</p>
                     </div>
                     {/* Search bar */}
-                    <div className="mt-4">
+                    <div className="mt-4 items-start w-full justify-start">
                       <input
                         type="text"
-                        className="w-full px-4 py-2 border border-gray-300 rounded-xl"
+                        className="w-full px-4 py-2 border border-gray-300 rounded-xl intern-list-search"
                         placeholder="Search"
                         value={searchQuery}
                         onChange={handleSearchChange}
                       />
                     </div>
-                    <div className=" flex items-start extracted-data-container">
+                    <div className="w-full items-start overflow-y-auto max-h-300px flex flex-col">
                       {filteredData.map((user) => (
                         <div
                           key={user.name}
-                          className="flex items-center gap-2 p-2 font-myFont leading-7 tracking-wide"
+                          className="w-full flex items-center gap-2 p-2 font-myFont leading-7 tracking-wide"
                         >
                           <div className="h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
                             {user.name.charAt(0)}
                           </div>
-                          <div>
+                          <div className="w-full">
                             <p className="font-bold intern-name">{user.name}</p>
                             <p className="text-gray-500 intern-email">
                               {user.email}
@@ -336,7 +346,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="relative w-4/5 h-3/5 p-5 gap-6 bg-white flex flex-col rounded-xl attendance-detail">
-                    <div className="flex items-center p-5 gap-6 attendance-detail-text">
+                    <div className="flex items-center p-5 gap-6 attendance-detail-text w-full  justify-start items-start">
                       <FontAwesomeIcon icon={faList} />
                       <p>Attendance Details</p>
                     </div>
@@ -354,10 +364,7 @@ const AdminDashboard = () => {
                       />
                     </div>
                     <table className="w-full text-left border-collapse attendance-table">
-                      <thead
-                        style={{ backgroundColor: "#112130" }}
-                        className="text-white"
-                      >
+                      <thead className="text-white attendance-table-head">
                         <tr>
                           <th className="px-6 rounded-l-lg font-medium text-sm">
                             Date
@@ -398,10 +405,10 @@ const AdminDashboard = () => {
                     </table>
                   </div>
                 </div>
-              </>
+              </div>
             )}
             {selectedMenu === "intern" && (
-              <>
+              <div className="bg-slate-100">
                 <p className="px-6 pt-4 font-semibold text-2xl">Overview</p>
                 <div className="w-full h-1/5 flex flex-row p-5 gap-6 overview-div">
                   <div
@@ -409,10 +416,10 @@ const AdminDashboard = () => {
                     style={{ background: "#D3B881" }}
                   >
                     <div className="flex flex-col p-8 gap-2">
-                      <div className=" text-white text-2xl font-myFont ">
+                      <div className="w-full text-white text-2xl font-myFont ">
                         300
                       </div>
-                      <div className=" text-white text-sm font-myFont">
+                      <div className="w-full text-white text-sm font-myFont">
                         Total employees
                       </div>
                     </div>
@@ -426,8 +433,10 @@ const AdminDashboard = () => {
                     style={{ background: "#D3B881" }}
                   >
                     <div className="flex flex-col p-8 gap-2">
-                      <div className=" text-white text-2xl font-myFont ">5</div>
-                      <div className=" text-white text-sm font-myFont">
+                      <div className="w-full text-white text-2xl font-myFont ">
+                        5
+                      </div>
+                      <div className="w-full text-white text-sm font-myFont">
                         Total admins
                       </div>
                     </div>
@@ -441,10 +450,10 @@ const AdminDashboard = () => {
                     style={{ background: "#D3B881" }}
                   >
                     <div className="flex flex-col p-8 gap-2">
-                      <div className=" text-white text-2xl font-myFont ">
+                      <div className="w-full text-white text-2xl font-myFont ">
                         320
                       </div>
-                      <div className=" text-white text-sm font-myFont">
+                      <div className="w-full text-white text-sm font-myFont">
                         Total users
                       </div>
                     </div>
@@ -454,9 +463,15 @@ const AdminDashboard = () => {
                     />
                   </div>
                 </div>
-                <div className="flex gap-5 px-5 h-full intern-detail">
+                <div className="flex gap-5 px-5 py-5 h-full intern-full-detail ">
                   <div className="relative w-full h-3/5 p-5 gap-6 bg-white flex flex-col rounded-xl table-div">
-                    <div className="flex  p-5 gap-6 intern-search">
+                    <div
+                      className="flex p-5 gap-6 intern-search"
+                      style={{
+                        flexDirection: "row",
+                        width: "100%",
+                      }}
+                    >
                       <div className="flex flex-row gap-5 items-center ">
                         <FontAwesomeIcon className="pt-1" icon={faList} />
                         <p>Intern Details</p>
@@ -486,10 +501,7 @@ const AdminDashboard = () => {
                       />
                     </div>
                     <table className="w-full text-left border-collapse intern-detail-table">
-                      <thead
-                        style={{ backgroundColor: "#112130" }}
-                        className="text-white intern-table"
-                      >
+                      <thead className="text-white intern-table">
                         <tr>
                           <th className="px-3 rounded-l-lg font-medium text-sm">
                             ID
@@ -528,7 +540,7 @@ const AdminDashboard = () => {
                     </table>
                   </div>
                 </div>
-              </>
+              </div>
             )}
 
             {selectedMenu === "settings" && <SettingsPage />}
