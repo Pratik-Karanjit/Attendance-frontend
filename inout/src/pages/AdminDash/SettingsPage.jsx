@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import { faUser, faEnvelope, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import "../../App.css";
+import "../../Nav.css";
 const Profile = () => {
   return (
     <div
       className="flex item-center justify-start px-5"
-      style={{ backgroundColor: "#F5F5F5 " }}
+      style={{ backgroundColor: "#F5F5F5" }}
     >
-      <div className="w-full bg-white rounded-xl p-5  mt-5">
-        <div className="w-full bg-black">
-          <p className="font-semibold text-xl font-myFont tracking-wide w-3/4">
+      <div className="w-full bg-white rounded-xl p-5 mt-5">
+        <div className="w-full">
+          <p className="font-semibold text-xl font-myFont tracking-wide w-full">
             Update Profile
           </p>
-          <p className="text-slate-400 text-sm w-3/4">
+          <p className="text-slate-400 text-sm w-full">
             These are your personal details.
           </p>
-          <div className="w-full flex flex-col gap-2 relative">
-            <p className="mt-5 font-myFont text-sm">Full Name</p>
-            <div className="relative ">
+          <div className="w-full flex flex-col gap-2 ">
+            <p className=" mt-5 font-myFont text-sm w-full text-start">
+              Full Name
+            </p>
+            <div className="relative w-full">
               <input
-                className="w-full max-w-md rounded-lg h-12 border border-black custom-input"
+                className="w-full rounded-lg h-12 border pl-10 custom-input"
                 type="text"
                 placeholder="Full Name"
               />
@@ -28,18 +31,18 @@ const Profile = () => {
                 icon={faUser}
                 style={{
                   position: "absolute",
-                  left: 0,
-                  paddingTop: "1.1rem",
-                  paddingLeft: "1rem",
-                  height: "0.8rem",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   color: "#A0AEC0",
                 }}
               />
             </div>
-            <p className="mt-5 font-myFont text-sm">Email</p>
-            <div className="relative">
+
+            <p className="mt-5 font-myFont text-sm w-full text-start">Email</p>
+            <div className="relative w-full">
               <input
-                className="w-full max-w-md rounded-lg h-12 border border-black custom-input"
+                className="w-full rounded-lg h-12 border pl-10 custom-input"
                 type="email"
                 placeholder="Email"
               />
@@ -47,17 +50,16 @@ const Profile = () => {
                 icon={faEnvelope}
                 style={{
                   position: "absolute",
-                  left: 0,
-                  paddingTop: "1.1rem",
-                  paddingLeft: "0.8rem",
-                  height: "0.9rem",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   color: "#A0AEC0",
                 }}
               />
             </div>
-            <p className="mt-5 font-myFont text-sm">Role</p>
+            <p className="mt-5 font-myFont text-sm  w-full text-start">Role</p>
             <select
-              className="w-full max-w-md rounded-lg h-12 pl-8 border border-black"
+              className="w-full rounded-lg h-12 pl-3 border"
               defaultValue=""
             >
               <option value="" disabled hidden>
@@ -67,14 +69,14 @@ const Profile = () => {
               <option value="user">Intern</option>
               <option value="superAdmin">Super Admin</option>
             </select>
-            <div className="flex flex-row gap-5 mt-2 justify-end">
+            <div className="flex flex-row gap-5 mt-5 justify-end w-full">
               <button
-                className="w-1/5 rounded-lg h-12 font-semibold text-sm mt-2 border border-orange-500 custom-cancel"
+                className="w-1/5 rounded-lg h-12 font-semibold text-sm border border-orange-200 custom-cancel"
                 style={{ color: "orange" }}
               >
                 Cancel
               </button>
-              <button className="w-1/5 bg-orange-400 rounded-lg h-12 text-white font-semibold font text-sm mt-2 confirm-button">
+              <button className="w-1/5 bg-orange-400 rounded-lg h-12 text-white font-semibold text-sm confirm-button">
                 Update Profile
               </button>
             </div>
@@ -89,22 +91,24 @@ const Profile = () => {
 const Password = () => {
   return (
     <div
-      className=" flex item-center justify-start px-5"
-      style={{ backgroundColor: "#F5F5F5 " }}
+      className="flex item-center justify-start px-5"
+      style={{ backgroundColor: "#F5F5F5" }}
     >
       <div className="w-full bg-white rounded-xl p-5 mt-5">
-        <div className="w-full bg-black">
+        <div className="w-full">
           <p className="font-semibold text-xl font-myFont tracking-wide">
             Update Password
           </p>
           <p className="text-slate-400 text-sm">
             Enter your current and new password to update.
           </p>
-          <div className="w-full flex flex-col gap-2 relative">
-            <p className="mt-5 font-myFont text-sm">Current Password</p>
-            <div className="relative">
+          <div className="w-full flex flex-col gap-2">
+            <p className="mt-5 font-myFont text-sm w-full text-start">
+              Current Password
+            </p>
+            <div className="relative w-full">
               <input
-                className="w-full max-w-md rounded-lg h-12 border border-black custom-input "
+                className="w-full rounded-lg h-12 border pl-10 custom-input"
                 type="password"
                 placeholder="Current Password"
               />
@@ -112,18 +116,19 @@ const Password = () => {
                 icon={faLock}
                 style={{
                   position: "absolute",
-                  left: 0,
-                  paddingTop: "1.1rem",
-                  paddingLeft: "1rem",
-                  height: "0.9rem",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   color: "#A0AEC0",
                 }}
               />
             </div>
-            <p className="mt-5 font-myFont text-sm">New Password</p>
-            <div className="relative">
+            <p className="mt-5 font-myFont text-sm w-full text-start">
+              New Password
+            </p>
+            <div className="relative w-full">
               <input
-                className="w-full max-w-md rounded-lg h-12 border border-black custom-input"
+                className="w-full rounded-lg h-12 border custom-input pl-10"
                 type="password"
                 placeholder="Enter New Password"
               />
@@ -131,23 +136,42 @@ const Password = () => {
                 icon={faLock}
                 style={{
                   position: "absolute",
-                  left: 0,
-                  paddingTop: "1.1rem",
-                  paddingLeft: "1rem",
-                  height: "0.9rem",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#A0AEC0",
+                }}
+              />
+            </div>
+            <p className="mt-5 font-myFont text-sm w-full text-start">
+              Confirm Password
+            </p>
+            <div className="relative w-full">
+              <input
+                className="w-full rounded-lg h-12 border custom-input pl-10"
+                type="password"
+                placeholder="Enter Confirm Password"
+              />
+              <FontAwesomeIcon
+                icon={faLock}
+                style={{
+                  position: "absolute",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   color: "#A0AEC0",
                 }}
               />
             </div>
 
-            <div className="flex flex-row gap-5 mt-2 justify-end">
+            <div className="flex flex-row gap-5 mt-5 justify-end w-full">
               <button
-                className="w-1/5 rounded-lg h-12 font-semibold text-sm mt-2 border border-orange-500 custom-cancel"
+                className="w-1/5 rounded-lg h-12 font-semibold text-sm border border-orange-200 custom-cancel"
                 style={{ color: "orange" }}
               >
                 Cancel
               </button>
-              <button className="w-1/5 bg-orange-400 rounded-lg h-12 text-white font-semibold font text-sm mt-2 confirm-button">
+              <button className="w-1/5 bg-orange-400 rounded-lg h-12 text-white font-semibold text-sm confirm-button">
                 Update Password
               </button>
             </div>
@@ -162,20 +186,22 @@ const Password = () => {
 const ForgotPassword = () => {
   return (
     <div
-      className=" flex item-center justify-start px-5"
-      style={{ backgroundColor: "#F5F5F5 " }}
+      className="flex item-center justify-start px-5"
+      style={{ backgroundColor: "#F5F5F5" }}
     >
       <div className="w-full bg-white rounded-xl p-5 mt-5">
-        <div className="w-full bg-black">
+        <div className="w-full">
           <p className="font-semibold text-xl font-myFont tracking-wide">
             Forgot Password
           </p>
-          <p className="text-slate-400 text-sm">Enter your current email.</p>
+          <p className="text-slate-400 text-sm ">Enter your current email.</p>
           <div className="w-full flex flex-col gap-2">
-            <p className="mt-5 font-myFont text-sm">Current Email</p>
-            <div className="relative">
+            <p className="mt-5 font-myFont text-sm w-full text-start">
+              Current Email
+            </p>
+            <div className="relative w-full">
               <input
-                className="w-full max-w-md rounded-lg h-12 border border-black custom-input "
+                className="w-full rounded-lg h-12 border custom-input pl-10"
                 type="email"
                 placeholder="Enter Current Email"
               />
@@ -183,22 +209,21 @@ const ForgotPassword = () => {
                 icon={faEnvelope}
                 style={{
                   position: "absolute",
-                  left: 0,
-                  paddingTop: "1.1rem",
-                  paddingLeft: "0.9rem",
-                  height: "0.9rem",
+                  left: "10px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   color: "#A0AEC0",
                 }}
               />
             </div>
-            <div className="flex flex-row gap-5 mt-2 justify-end">
+            <div className="flex flex-row gap-5 mt-5 justify-end w-full">
               <button
-                className="w-1/5 rounded-lg h-12 font-semibold text-sm mt-2 border border-orange-500 custom-cancel"
+                className="w-1/5 rounded-lg h-12 font-semibold text-sm border border-orange-200 custom-cancel"
                 style={{ color: "orange" }}
               >
                 Cancel
               </button>
-              <button className="w-1/5 bg-orange-400 rounded-lg h-12 text-white font-semibold font text-sm mt-2 confirm-button">
+              <button className="w-1/5 bg-orange-400 rounded-lg h-12 text-white font-semibold text-sm confirm-button">
                 Send Code
               </button>
             </div>

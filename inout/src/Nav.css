@@ -8,6 +8,10 @@
   .top-div {
     width: 100%;
   }
+  .month-div {
+    top: 0;
+    right: 0;
+  }
 }
 
 @media (max-width: 767px) and (min-width: 150px) {
@@ -60,6 +64,18 @@
     font-size: 11px !important;
     padding: 4px 5px;
   }
+
+  .intern-full-detail-table {
+    width: 100% !important;
+  }
+
+  .intern-full-detail-table tr,
+  .intern-full-detail-table th,
+  .intern-full-detail-table td {
+    font-size: 11px !important;
+    padding: 4px 5px;
+  }
+
   .view-button {
     font-size: 10px;
     padding: 2px 5px;
@@ -70,10 +86,11 @@
     width: 100%;
   }
   .intern-search {
-    flex-direction: column;
+    flex-direction: column !important;
+    align-items: start !important;
   }
   .intern-search-bar {
-    width: 100%;
+    width: 50%;
   }
   .confirm-button {
     width: 50%;
@@ -81,4 +98,14 @@
   .top-div {
     width: 100%;
   }
+}
+
+.overview-div {
+  gap: 1.4rem;
+}
+
+.intern-search-bar:focus,
+.intern-list-search:focus {
+  outline: none !important;
+  border-color: #ffa500 !important;
 }

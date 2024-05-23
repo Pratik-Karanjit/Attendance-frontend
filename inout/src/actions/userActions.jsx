@@ -234,7 +234,7 @@ export const listUsers = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.get(
-      `http://110.34.30.120:8000/api/users/`,
+      `http://127.0.0.1:8000//api/users/`,
 
       config
     );

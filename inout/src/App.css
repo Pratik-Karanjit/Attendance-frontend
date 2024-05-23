@@ -14,10 +14,10 @@
 }
 
 .extracted-data-container {
-  overflow-y: auto; /* Add vertical scrollbar if content overflows vertically */
-  max-height: 300px; /* Set the maximum height of the container */
+  overflow-y: auto;
+  max-height: 300px;
   display: flex;
-  flex-direction: column; /* Display the items in a vertical layout */
+  flex-direction: column;
 }
 
 .App-header {
@@ -29,6 +29,27 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+}
+
+.intern-detail {
+  max-height: 400px;
+  overflow-y: auto;
+  overflow-x: auto;
+  min-height: 350px;
+}
+
+.attendance-detail {
+  max-width: auto;
+  max-height: 400px;
+  min-height: 400px;
+}
+
+.attendance-table-head th {
+  background-color: #112130 !important;
+}
+
+.intern-detail-table th {
+  background-color: #112130 !important;
 }
 
 .App-link {
@@ -119,10 +140,6 @@
 
 .border-dark-orange {
   border-color: #ff4500; /* Hexadecimal notation for a darker shade of orange */
-}
-
-.intern-detail {
-  max-height: 400px;
 }
 
 /* @media only screen and (max-width: 1000px) {
