@@ -44,6 +44,12 @@
   min-height: 400px;
 }
 
+.login-email-input:focus,
+.login-password-input:focus {
+  border-color: #ffa500;
+  outline: none;
+}
+
 .attendance-table-head th {
   background-color: #112130 !important;
 }
@@ -83,6 +89,10 @@
 
 .custom-tab:hover {
   color: darkorange;
+}
+
+.login-button:hover {
+  background-color: orange;
 }
 
 .confirm-button:hover {

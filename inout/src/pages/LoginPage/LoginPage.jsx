@@ -113,23 +113,29 @@ import loginMan from "../../photos/login-man.webp";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const { loading, error, userInfo } = userLogin;
+  const navigate = useNavigate();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  console.log("user info", userInfo);
 
   useEffect(() => {
     if (userInfo) {
-      // Redirect to dashboard upon successful login
-      // Replace '/dashboard' with your actual dashboard route
-      window.location.href = "/dashboard";
+      // Redirect based on user role
+      if (userInfo.user_data.role === "admin") {
+        navigate("/adminDashboard");
+      } else if (userInfo.user_data.role === "intern") {
+        navigate("/dashboard");
+      }
     }
-  }, [userInfo]);
+  }, [userInfo, navigate]);
 
   useEffect(() => {
     if (error) {
@@ -189,7 +195,7 @@ function LoginPage() {
 
             <div className="flex flex-col items-start  justify-center gap-4">
               <input
-                className="bg-gray-100 w-full max-w-xs rounded-lg h-12 mt-4 pl-3"
+                className="bg-gray-100 w-full max-w-xs rounded-lg h-12 mt-4 pl-3 login-email-input"
                 type="email"
                 placeholder="Email Address"
                 value={email}
@@ -197,7 +203,7 @@ function LoginPage() {
               />
               <div className="w-full relative flex flex-col items-start justify-left gap-4">
                 <input
-                  className="bg-gray-100 w-full max-w-xs rounded-lg h-12 mt-2 pl-3"
+                  className="bg-gray-100 w-full max-w-xs rounded-lg h-12 mt-2 pl-3 login-password-input"
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
                   value={password}
@@ -210,7 +216,7 @@ function LoginPage() {
                 />
               </div>
               <button
-                className="w-full max-w-xs bg-orange-400 rounded-lg h-12 text-white font-semibold font text-sm mt-2"
+                className="w-full max-w-xs bg-orange-400 rounded-lg h-12 text-white font-semibold font text-sm mt-2 outline-none login-button"
                 onClick={submitHandler}
               >
                 {loading ? <Loader /> : "Login"}

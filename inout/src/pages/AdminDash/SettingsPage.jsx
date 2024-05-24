@@ -285,7 +285,7 @@ const SettingsPage = () => {
           Forgot Password
         </div>
       </div>
-      <div className=" bg-white shadow-md rounded-md">{renderContent()}</div>
+      <div className=" bg-white rounded-md">{renderContent()}</div>
     </div>
   );
 };

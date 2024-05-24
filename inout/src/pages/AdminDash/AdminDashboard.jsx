@@ -17,10 +17,9 @@ import {
   faCog,
   faRightFromBracket,
 } from "@fortawesome/free-solid-svg-icons";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import SettingsPage from "./SettingsPage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const AdminDashboard = () => {
   const [selectedMenu, setSelectedMenu] = useState("dashboard");
@@ -30,40 +29,36 @@ const AdminDashboard = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const userList = useSelector((state) => state.userList.users);
+  console.log("usersHere", userList);
 
-  const fetchData = async () => {
-    try {
-      const result = await axios.get(
-        "https://jsonplaceholder.typicode.com/users"
-      );
-      let idCounter = 1;
-      const extractedData = result.data.map((user) => ({
-        id: idCounter++,
-        name: user.name,
-        email: user.email,
-      }));
-      setExtractedData(extractedData);
-      console.log("Extracted data:", extractedData);
-      console.log("Result data here:", result.data);
-    } catch (error) {
-      console.log("Error:", error);
-    }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, []);
+  const [userListWithId, setUserListWithId] = useState([]);
 
   useEffect(() => {
     dispatch(listUsers());
   }, [dispatch]);
 
+  // Effect to update userListWithId when userList changes
+  useEffect(() => {
+    if (userList && userList.length > 0) {
+      const userListWithId = userList.map((user, index) => ({
+        ...user,
+        id: index + 1,
+      }));
+      setExtractedData(userListWithId);
+    }
+  }, [userList]);
+
   const handleSearchChange = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredData = extractedData.filter((user) =>
-    user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // const filteredData = extractedData.filter((user) =>
+  //   user.name.toLowerCase().includes(searchQuery.toLowerCase())
+  // );
+
+  const filteredData = extractedData.filter((intern) =>
+    intern.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleSearchInterns = (event) => {
@@ -71,7 +66,7 @@ const AdminDashboard = () => {
   };
 
   const filteredInterns = extractedData.filter((intern) =>
-    intern.name.toLowerCase().includes(searchQuery.toLowerCase())
+    intern.email.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleMenuClick = (menu) => {
@@ -329,15 +324,14 @@ const AdminDashboard = () => {
                     <div className="w-full items-start overflow-y-auto max-h-300px flex flex-col">
                       {filteredData.map((user) => (
                         <div
-                          key={user.name}
+                          key={user.id}
                           className="w-full flex items-center gap-2 p-2 font-myFont leading-7 tracking-wide"
                         >
-                          <div className="h-10 w-10 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                            {user.name.charAt(0)}
+                          <div className="h-10 w-12 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                            {user.email.charAt(0)}
                           </div>
                           <div className="w-full">
-                            <p className="font-bold intern-name">{user.name}</p>
-                            <p className="text-gray-500 intern-email">
+                            <p className="font-normal intern-name">
                               {user.email}
                             </p>
                           </div>
