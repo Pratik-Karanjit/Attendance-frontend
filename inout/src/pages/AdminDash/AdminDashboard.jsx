@@ -16,10 +16,12 @@ import {
   faUser,
   faCog,
   faRightFromBracket,
+  faBars,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import SettingsPage from "./SettingsPage";
 import { useDispatch, useSelector } from "react-redux";
+import UserProfilePage from "../../pages/AdminDash/UserProfilePage.jsx";
 
 const AdminDashboard = () => {
   const [selectedMenu, setSelectedMenu] = useState("dashboard");
@@ -31,8 +33,22 @@ const AdminDashboard = () => {
   const dispatch = useDispatch();
   const userList = useSelector((state) => state.userList.users);
   console.log("usersHere", userList);
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
 
   const [userListWithId, setUserListWithId] = useState([]);
+
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
+  useEffect(() => {
+    if (!userInfo) {
+      navigate("/");
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     dispatch(listUsers());
@@ -106,16 +122,27 @@ const AdminDashboard = () => {
     "December",
   ];
 
-  const handleViewButton = (internId) => {
-    navigate(`/admin/${internId}`);
-    console.log("internId from view button.", internId);
+  // const handleViewButton = (internId) => {
+  //   navigate(`/admin/${internId}`);
+  //   console.log("internId from view button.", internId);
+  // };
+
+  const handleNavigationButton = (internId) => {
+    navigate(`/userProfilePage/${internId}`);
   };
 
   return (
     <div>
       <div>
+        <div className="hamburger-menu" onClick={toggleSidebar}>
+          <FontAwesomeIcon icon={faBars} />
+        </div>
         {/* Left sidebar */}
-        <div className="h-screen fixed l:flex w-1/5 bg-white flex flex-col justify-between left-bar">
+        <div
+          className={`h-screen fixed l:flex w-1/5 bg-white flex flex-col justify-between left-bar ${
+            isSidebarOpen ? "open" : ""
+          }`}
+        >
           <div className="w-full">
             <div className="flex justify-center pt-5">
               <img
@@ -523,9 +550,20 @@ const AdminDashboard = () => {
                               <button
                                 className="rounded-3xl px-5 py-2 text-sm font-myFont  text-white hover:text-black view-button"
                                 style={{ backgroundColor: "#1C5A41" }}
-                                onClick={() => handleViewButton(intern.id)}
+                                onClick={() =>
+                                  handleNavigationButton(intern.pk)
+                                }
                               >
                                 View
+                              </button>
+                              <button
+                                className="rounded-3xl px-5 ml-5 py-2 text-sm font-myFont  text-white hover:text-black view-button"
+                                style={{ backgroundColor: "#1C5A41" }}
+                                onClick={(e) => {
+                                  handleNavigationButton(e);
+                                }}
+                              >
+                                Attendance
                               </button>
                             </td>
                           </tr>

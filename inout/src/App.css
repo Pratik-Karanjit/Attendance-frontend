@@ -75,6 +75,20 @@
   gap: 0.5rem;
 }
 
+/* @media (max-width: 1000px) and (min-width: 600px) {
+  .eye-icon {
+    position: absolute;
+    right: 8.5rem;
+    top: 1.2rem;
+  }
+} */
+
+@media (max-width: 1300px) and (min-width: 1000px) {
+  .login-div {
+    width: 100%;
+  }
+}
+
 @keyframes slide-in-out {
   0% {
     background-position: 100% 0;

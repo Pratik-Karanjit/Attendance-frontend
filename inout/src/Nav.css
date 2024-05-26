@@ -109,3 +109,40 @@
   outline: none !important;
   border-color: #ffa500 !important;
 }
+
+/* Hamburger menu */
+.hamburger-menu {
+  display: none;
+  position: fixed;
+  top: 1.8rem;
+  right: 6rem;
+  z-index: 1100;
+  font-size: 1.5rem;
+  cursor: pointer;
+}
+
+/* Show hamburger menu on small screens */
+@media (max-width: 1000px) {
+  .hamburger-menu {
+    display: block;
+  }
+
+  .left-bar {
+    display: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .left-bar.open {
+    display: flex;
+    transform: translateX(0);
+  }
+
+  .right-section {
+    width: 100%;
+  }
+
+  .top-div {
+    width: 100%;
+  }
+}

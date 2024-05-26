@@ -161,7 +161,7 @@ function LoginPage() {
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-200">
-      <div className="w-full xl:w-3/6 px-2 py-4 xl:px-20 xl:py-24 l:px-10 l:py-16 sm:px-6 sm:py-12 xsm:px-2 xsm:py-8 bg-white rounded-3xl">
+      <div className="w-full xxl:w-3/6 xl:w-4/6 px-2 py-4 xl:px-20 xl:py-24 l:px-10 l:py-16 sm:w-4/6 sm:px-6 sm:py-12 xsm:px-2 xsm:py-8 bg-white rounded-3xl login-div">
         <div className="flex flex-col xl:flex-row justify-between gap-10">
           <div className="w-full xl:w-5/6 bg-orange-400 rounded-3xl p-10 hidden xl:block">
             <p className="text-2xl text-white font-bold font-myFont leading-10">
@@ -211,7 +211,7 @@ function LoginPage() {
                 />
                 <FontAwesomeIcon
                   icon={showPassword ? faEyeSlash : faEye} // Font Awesome icon
-                  className="absolute right-4 top-5 cursor-pointer h-6 w-6"
+                  className="absolute right-4 top-5 cursor-pointer h-6 w-6 eye-icon"
                   onClick={() => setShowPassword(!showPassword)}
                 />
               </div>
