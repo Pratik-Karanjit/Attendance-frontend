@@ -3,7 +3,7 @@ import "../../App.css";
 import "../../Nav.css";
 import skillAcademyLogo from "../../photos/skillxattendance.png";
 import DashboardImage from "../../photos/Dashboard.png";
-import { listUsers } from "../../actions/userActions";
+import { listUsers, logout } from "../../actions/userActions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -17,11 +17,13 @@ import {
   faCog,
   faRightFromBracket,
   faBars,
+  faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
 import SettingsPage from "./SettingsPage";
 import { useDispatch, useSelector } from "react-redux";
 import UserProfilePage from "../../pages/AdminDash/UserProfilePage.jsx";
+import AddUserPage from "./AddUser.jsx";
 
 const AdminDashboard = () => {
   const [selectedMenu, setSelectedMenu] = useState("dashboard");
@@ -69,22 +71,29 @@ const AdminDashboard = () => {
     setSearchQuery(event.target.value);
   };
 
+  const HandleDelete = () => {
+    console.log("handle delete called");
+    dispatch(logout());
+    window.location.href = "/";
+  };
+
   // const filteredData = extractedData.filter((user) =>
   //   user.name.toLowerCase().includes(searchQuery.toLowerCase())
   // );
 
   const filteredData = extractedData.filter((intern) =>
-    intern.email.toLowerCase().includes(searchQuery.toLowerCase())
+    intern.full_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleSearchInterns = (event) => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredInterns = extractedData.filter((intern) =>
-    intern.email.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredInterns = extractedData.filter(
+    (intern) =>
+      intern.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      intern.full_name.toLowerCase().includes(searchQuery.toLowerCase())
   );
-
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
   };
@@ -129,6 +138,10 @@ const AdminDashboard = () => {
 
   const handleNavigationButton = (internId) => {
     navigate(`/userProfilePage/${internId}`);
+  };
+
+  const handleAttendanceButton = (internId) => {
+    navigate(`/internAttendancePage/${internId}`);
   };
 
   return (
@@ -193,6 +206,27 @@ const AdminDashboard = () => {
                     }`}
                   >
                     Interns
+                  </p>
+                </div>
+
+                <div
+                  className={`flex gap-4 h-12 items-center rounded-l-3xl mt-5 cursor-pointer ${
+                    selectedMenu === "addUser" ? "selected-menu" : ""
+                  }`}
+                  onClick={() => handleMenuClick("addUser")}
+                >
+                  <FontAwesomeIcon
+                    className="h-5 pl-5 opacity-60"
+                    icon={faUserPlus}
+                  />
+                  <p
+                    className={`h-6 ${
+                      selectedMenu === "addUser"
+                        ? "text-white"
+                        : "text-slate-500"
+                    }`}
+                  >
+                    Add User
                   </p>
                 </div>
 
@@ -355,11 +389,11 @@ const AdminDashboard = () => {
                           className="w-full flex items-center gap-2 p-2 font-myFont leading-7 tracking-wide"
                         >
                           <div className="h-10 w-12 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                            {user.email.charAt(0)}
+                            {user.full_name.charAt(0)}
                           </div>
                           <div className="w-full">
                             <p className="font-normal intern-name">
-                              {user.email}
+                              {user.full_name}
                             </p>
                           </div>
                         </div>
@@ -543,7 +577,9 @@ const AdminDashboard = () => {
                         {filteredInterns.map((intern) => (
                           <tr key={intern.name}>
                             <td className="p-3 font-myFont">{intern.id}</td>
-                            <td className="p-3 font-myFont">{intern.name}</td>
+                            <td className="p-3 font-myFont">
+                              {intern.full_name}
+                            </td>
                             <td className="p-3 font-myFont">{intern.email}</td>
                             <td className="p-3 font-myFont">150</td>
                             <td className="p-3 font-myFont">
@@ -559,8 +595,8 @@ const AdminDashboard = () => {
                               <button
                                 className="rounded-3xl px-5 ml-5 py-2 text-sm font-myFont  text-white hover:text-black view-button"
                                 style={{ backgroundColor: "#1C5A41" }}
-                                onClick={(e) => {
-                                  handleNavigationButton(e);
+                                onClick={() => {
+                                  handleAttendanceButton(intern.pk);
                                 }}
                               >
                                 Attendance
@@ -577,12 +613,9 @@ const AdminDashboard = () => {
 
             {selectedMenu === "settings" && <SettingsPage />}
 
-            {selectedMenu === "logout" && (
-              <div>
-                <p className="font-semibold text-2xl">Logging out...</p>
-                {/* You can add a logout process or redirect here */}
-              </div>
-            )}
+            {selectedMenu === "addUser" && <AddUserPage />}
+
+            {selectedMenu === "logout" && HandleDelete()}
           </div>
         </div>
       </div>

@@ -44,7 +44,7 @@ import {
   ATTENDANCE_DETAIL_REQUEST,
   ATTENDANCE_DETAIL_SUCCESS,
   ATTENDANCE_DETAIL_FAIL,
-  PENDING_ATTENDANCE_REQUEST_REQUEST ,
+  PENDING_ATTENDANCE_REQUEST_REQUEST,
   PENDING_ATTENDANCE_REQUEST_SUCCESS,
   PENDING_ATTENDANCE_REQUEST_FAIL,
   PENDING_ATTENDANCE_REQUEST_RESET,
@@ -54,7 +54,7 @@ import {
   PENDING_ATTENDANCE_DETAIL_REQUEST_RESET,
   PENDING_ATTENDANCE_DELETE_REQUEST,
   PENDING_ATTENDANCE_DELETE_SUCCESS,
-  PENDING_ATTENDANCE_DELETE_FAIL
+  PENDING_ATTENDANCE_DELETE_FAIL,
 } from "../constants/attendanceConstants";
 
 import axios from "axios";
@@ -75,11 +75,7 @@ export const InTime = () => async (dispatch, getState) => {
         Authorization: `Token ${userInfo.Token}`,
       },
     };
-    const { data } = await axios.post(
-      `http://110.34.30.120:8000/api/in_time/`,
-      null,
-      config
-    );
+    const { data } = await axios.post(`${BASE_BACKEND}/in_time/`, null, config);
     dispatch({
       type: ATTENDANCE_INTIME_SUCCESS,
       payload: data,
@@ -116,7 +112,7 @@ export const OutTime = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `http://110.34.30.120:8000/api/out_time/`,
+      `${BASE_BACKEND}/out_time/`,
       null,
       config
     );
@@ -172,7 +168,7 @@ export const Break1InTime = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `http://110.34.30.120:8000/api/first_break_in/`,
+      `${BASE_BACKEND}/first_break_in/`,
       null,
       config
     );
@@ -207,7 +203,7 @@ export const Break1OutTime = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `http://110.34.30.120:8000/api/first_break_out/`,
+      `${BASE_BACKEND}/first_break_out/`,
       null,
       config
     );
@@ -242,7 +238,7 @@ export const Break2InTime = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `http://110.34.30.120:8000/api/second_break_in/`,
+      `${BASE_BACKEND}/second_break_in/`,
       null,
       config
     );
@@ -277,7 +273,7 @@ export const Break2OutTime = () => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.post(
-      `http://110.34.30.120:8000/api/second_break_out/`,
+      `${BASE_BACKEND}/second_break_out/`,
       null,
       config
     );
@@ -312,7 +308,7 @@ export const staffAttendance = (id) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.get(
-      `http://110.34.30.120:8000/api/daily_attendence/${id}/`,
+      `${BASE_BACKEND}/daily_attendence/${id}/`,
 
       config
     );
@@ -347,7 +343,7 @@ export const pendingRequest = (id) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.get(
-      `http://110.34.30.120:8000/api/attedence_request/`,
+      `${BASE_BACKEND}/attedence_request/`,
 
       config
     );
@@ -382,7 +378,7 @@ export const pendingDelete = (id) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.delete(
-      `http://110.34.30.120:8000/api/attedence_request/${id}/`,
+      `${BASE_BACKEND}/attedence_request/${id}/`,
 
       config
     );
@@ -417,7 +413,7 @@ export const pendingRequestDetail = (id) => async (dispatch, getState) => {
       },
     };
     const { data } = await axios.get(
-      `http://110.34.30.120:8000/api/attedence_request/${id}/`,
+      `${BASE_BACKEND}/attedence_request/${id}/`,
 
       config
     );
@@ -435,7 +431,6 @@ export const pendingRequestDetail = (id) => async (dispatch, getState) => {
     });
   }
 };
-
 
 export const manualAttendance =
   ({
@@ -466,7 +461,7 @@ export const manualAttendance =
       const dataToSend = {
         user_id: selectedUser,
         attedence_date: attendanceDate,
-        in_time:manualInTime,
+        in_time: manualInTime,
         out_time: manualOutTime,
         ...(manualBreak1In && { first_break_in: manualBreak1In }),
         ...(manualBreak1Out && { first_break_out: manualBreak1Out }),
@@ -475,7 +470,7 @@ export const manualAttendance =
       };
       console.log(dataToSend);
       const { data } = await axios.post(
-        `http://110.34.30.120:8000/api/daily_attendence/`,
+        `${BASE_BACKEND}/daily_attendence/`,
         dataToSend,
 
         config
@@ -486,7 +481,7 @@ export const manualAttendance =
       });
     } catch (error) {
       let errorMessage = "An error occurred. Please try again.";
-      
+
       if (error.response) {
         const responseData = error.response.data;
         if (responseData.non_field_errors) {
@@ -501,7 +496,7 @@ export const manualAttendance =
           errorMessage = responseData.second_break_out[0];
         }
       }
-  
+
       dispatch({
         type: MANUAL_ATTENDANCE_FAIL,
         payload: errorMessage,
@@ -509,10 +504,8 @@ export const manualAttendance =
     }
   };
 
-
-  export const manualAttendanceRequest =
+export const manualAttendanceRequest =
   ({
-    
     attendanceDate,
     manualInTime,
     manualBreak1In,
@@ -520,7 +513,7 @@ export const manualAttendance =
     manualBreak2In,
     manualBreak2Out,
     manualOutTime,
-    reason
+    reason,
   }) =>
   async (dispatch, getState) => {
     try {
@@ -538,21 +531,24 @@ export const manualAttendance =
         },
       };
       const dataToSend = {
-
         attedence_date: attendanceDate,
-        in_time:manualInTime,
+        in_time: manualInTime,
         out_time: manualOutTime,
         ...(manualBreak1In && { first_break_in: manualBreak1In }),
         ...(manualBreak1Out && { first_break_out: manualBreak1Out }),
         ...(manualBreak2In && { second_break_in: manualBreak2In }),
         ...(manualBreak2Out && { second_break_out: manualBreak2Out }),
-        reason:reason
+        reason: reason,
       };
-      {console.log(manualBreak1In)}
-      {console.log(manualBreak1Out)}
+      {
+        console.log(manualBreak1In);
+      }
+      {
+        console.log(manualBreak1Out);
+      }
       console.log(dataToSend);
       const { data } = await axios.post(
-        `http://110.34.30.120:8000/api/attedence_request/`,
+        `${BASE_BACKEND}/attedence_request/`,
         dataToSend,
 
         config
@@ -562,8 +558,9 @@ export const manualAttendance =
         payload: data,
       });
     } catch (error) {
-      let errorMessage = "Please make sure you have filled all the information as insructed.";
-      
+      let errorMessage =
+        "Please make sure you have filled all the information as insructed.";
+
       if (error.response) {
         const responseData = error.response.data;
         if (responseData.non_field_errors) {
@@ -578,7 +575,7 @@ export const manualAttendance =
           errorMessage = responseData.second_break_out[0];
         }
       }
-  
+
       dispatch({
         type: MANUAL_ATTENDANCE_REQUEST_FAIL,
         payload: errorMessage,
@@ -586,56 +583,55 @@ export const manualAttendance =
     }
   };
 
+export const deleteAttendance = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ATTENDANCE_DELETE_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
-  export const deleteAttendance = (id) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: ATTENDANCE_DELETE_REQUEST,
-      });
-      const {
-        userLogin: { userInfo },
-      } = getState();
-  
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${userInfo.Token}`,
-        },
-      };
-      const { data } = await axios.delete(
-        `http://110.34.30.120:8000/api/daily_attendence/${id}/`,
-  
-        config
-      );
-      dispatch({
-        type: ATTENDANCE_DELETE_SUCCESS,
-        payload: data,
-      });
-      dispatch({
-        type: ATTENDANCE_INTIME_RESET,
-      });
-    } catch (error) {
-      dispatch({
-        type: ATTENDANCE_DELETE_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Token ${userInfo.Token}`,
+      },
+    };
+    const { data } = await axios.delete(
+      `${BASE_BACKEND}/daily_attendence/${id}/`,
 
-  export const updateAttendance =   ({
-  
-    
+      config
+    );
+    dispatch({
+      type: ATTENDANCE_DELETE_SUCCESS,
+      payload: data,
+    });
+    dispatch({
+      type: ATTENDANCE_INTIME_RESET,
+    });
+  } catch (error) {
+    dispatch({
+      type: ATTENDANCE_DELETE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const updateAttendance =
+  ({
     updateInTime,
     updateBreak1In,
     updateBreak1Out,
     updateBreak2In,
     updateBreak2Out,
     updateOutTime,
-    attendanceId
-  }) => async (dispatch, getState) => {
+    attendanceId,
+  }) =>
+  async (dispatch, getState) => {
     try {
       dispatch({
         type: ATTENDANCE_UPDATE_REQUEST,
@@ -643,7 +639,7 @@ export const manualAttendance =
       const {
         userLogin: { userInfo },
       } = getState();
-  
+
       const config = {
         headers: {
           "Content-type": "application/json",
@@ -651,21 +647,20 @@ export const manualAttendance =
         },
       };
       const updatedData = {
-   
-        in_time:updateInTime,
+        in_time: updateInTime,
         out_time: updateOutTime,
-        ...(updateBreak1In && { first_break_in: updateBreak1In}),
+        ...(updateBreak1In && { first_break_in: updateBreak1In }),
         ...(updateBreak1Out && { first_break_out: updateBreak1Out }),
         ...(updateBreak2In && { second_break_in: updateBreak2In }),
         ...(updateBreak2Out && { second_break_out: updateBreak2Out }),
       };
       const { data } = await axios.put(
-        `http://110.34.30.120:8000/api/daily_attendence/${attendanceId}/`,
+        `${BASE_BACKEND}/daily_attendence/${attendanceId}/`,
         updatedData,
         config
       );
       dispatch({
-        type:ATTENDANCE_UPDATE_SUCCESS,
+        type: ATTENDANCE_UPDATE_SUCCESS,
         payload: data,
       });
     } catch (error) {
@@ -679,37 +674,36 @@ export const manualAttendance =
     }
   };
 
-  export const detailAttendance = (id) => async (dispatch, getState) => {
-    try {
-      dispatch({
-        type: ATTENDANCE_DETAIL_REQUEST,
-      });
-      const {
-        userLogin: { userInfo },
-      } = getState();
-  
-      const config = {
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Token ${userInfo.Token}`,
-        },
-      };
-      const { data } = await axios.get(
-        `http://110.34.30.120:8000/api/daily_attendence/${id}/`,
-        config
-      );
-      dispatch({
-        type:ATTENDANCE_DETAIL_SUCCESS,
-        payload: data,
-      });
-    } catch (error) {
-      dispatch({
-        type: ATTENDANCE_DETAIL_FAIL,
-        payload:
-          error.response && error.response.data.detail
-            ? error.response.data.detail
-            : error.message,
-      });
-    }
-  };
+export const detailAttendance = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ATTENDANCE_DETAIL_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
 
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Token ${userInfo.Token}`,
+      },
+    };
+    const { data } = await axios.get(
+      `${BASE_BACKEND}/daily_attendence/${id}/`,
+      config
+    );
+    dispatch({
+      type: ATTENDANCE_DETAIL_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ATTENDANCE_DETAIL_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
