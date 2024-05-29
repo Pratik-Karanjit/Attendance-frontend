@@ -33,6 +33,9 @@ import {
   DEPARTMENT_LIST,
   DEPARTMENT_FAIL,
   DEPARTMENT_SUCCESS,
+  ADMIN_ATTENDANCE_REQUEST,
+  ADMIN_ATTENDANCE_SUCCESS,
+  ADMIN_ATTENDANCE_FAIL,
 } from "../constants/userConstants";
 
 import {
@@ -180,20 +183,13 @@ export const registerNewUser =
       });
 
       // Success message with SweetAlert
-      Swal.fire({
+      await Swal.fire({
         icon: "success",
         title: "User Created",
         text: "The new user has been successfully created",
-      }).then((result) => {
-        if (result.isConfirmed || result.isDismissed) {
-          // Reset form fields
-          document.getElementById("full_name").value = "";
-          document.getElementById("email").value = "";
-          document.getElementById("password").value = "";
-          document.getElementById("role").value = "";
-          document.getElementById("department").value = "";
-        }
       });
+
+      return { success: true };
     } catch (error) {
       if (error.response) {
         if (error.response.status === 400) {
@@ -348,6 +344,42 @@ export const listAttendance = () => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: USER_ATTENDANCE_FAIL,
+      payload:
+        error.response && error.response.data.detail
+          ? error.response.data.detail
+          : error.message,
+    });
+  }
+};
+
+export const monthUserAttendance = (internId) => async (dispatch, getState) => {
+  try {
+    dispatch({
+      type: ADMIN_ATTENDANCE_REQUEST,
+    });
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Token ${userInfo.Token}`,
+      },
+    };
+
+    const { data } = await axios.post(
+      `${BASE_BACKEND}/month_user_attedence/`,
+      { user_id: internId },
+      config
+    );
+    dispatch({
+      type: ADMIN_ATTENDANCE_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: ADMIN_ATTENDANCE_FAIL,
       payload:
         error.response && error.response.data.detail
           ? error.response.data.detail

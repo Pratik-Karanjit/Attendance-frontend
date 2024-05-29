@@ -45,29 +45,30 @@ const AddUserPage = () => {
       [name]: value,
     });
   };
+
   const handleAddUserButton = async (e) => {
     e.preventDefault();
     const { full_name, email, password, role, department } = formData;
+    console.log({ full_name, email, password, role, department });
 
     try {
-      // Dispatch action to register new user
-      await registerNewUser(full_name, email, password, role, department);
-
-      // Reset form fields on success
-      setFormData({
-        full_name: "",
-        email: "",
-        role: "",
-        department: "",
-        password: "",
-      });
-
-      // Show success message
-      Swal.fire({
-        icon: "success",
-        title: "User Created",
-        text: "The new user has been successfully created",
-      });
+      let actionPayload = [full_name, email, password, role];
+      if (department) {
+        actionPayload.push(department);
+      }
+      const response = await dispatch(registerNewUser(...actionPayload));
+      if (response?.success) {
+        // Reset form data
+        setFormData({
+          full_name: "",
+          email: "",
+          password: "",
+          role: "",
+          department: "",
+        });
+      } else {
+        console.log("no form cleared");
+      }
     } catch (error) {
       // Catch any other errors not handled by redux
       Swal.fire({
