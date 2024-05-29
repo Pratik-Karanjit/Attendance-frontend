@@ -3,7 +3,11 @@ import "../../App.css";
 import "../../Nav.css";
 import skillAcademyLogo from "../../photos/skillxattendance.png";
 import DashboardImage from "../../photos/Dashboard.png";
-import { listUsers, logout } from "../../actions/userActions";
+import {
+  listUsers,
+  logout,
+  monthUserAttendance,
+} from "../../actions/userActions";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -38,13 +42,47 @@ const AdminDashboard = () => {
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
 
+  const [activeUserId, setActiveUserId] = useState(null);
+
+  const handleUserClick = (userId) => {
+    setActiveUserId(userId);
+    HandleMonthUserAttendance(userId);
+  };
+
   const [userListWithId, setUserListWithId] = useState([]);
 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
+  const attendanceData = useSelector(
+    (state) => state?.adminAttendance?.detailData?.daily_attendance
+  );
+  console.log("attendance data hereeeee", attendanceData);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  function formatTime(timeString) {
+    if (!timeString) return null;
+    const [hours, minutes, seconds] = timeString.split(":");
+    const date = new Date();
+    date.setHours(hours, minutes, seconds);
+    const options = {
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: true,
+    };
+    return date.toLocaleTimeString("en-US", options);
+  }
+
+  function formatWorkingHours(durationString) {
+    if (!durationString) return null;
+    const [hours, minutes, seconds] = durationString.split(":");
+    const totalHours = parseInt(hours);
+    const totalMinutes = parseInt(minutes);
+    return `${totalHours} hr ${totalMinutes} min`;
+  }
 
   useEffect(() => {
     if (!userInfo) {
@@ -81,19 +119,28 @@ const AdminDashboard = () => {
   //   user.name.toLowerCase().includes(searchQuery.toLowerCase())
   // );
 
-  const filteredData = extractedData.filter((intern) =>
-    intern.full_name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredData = extractedData.filter(
+    (intern) =>
+      intern.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      intern?.full_name?.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const handleSearchInterns = (event) => {
     setSearchQuery(event.target.value);
   };
 
+  const HandleMonthUserAttendance = async (internId) => {
+    dispatch(monthUserAttendance(internId));
+
+    console.log("Intern ID:", internId);
+  };
+
   const filteredInterns = extractedData.filter(
     (intern) =>
-      intern.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      intern.full_name.toLowerCase().includes(searchQuery.toLowerCase())
+      intern?.email?.toLowerCase()?.includes(searchQuery.toLowerCase()) ||
+      intern?.full_name?.toLowerCase()?.includes(searchQuery.toLowerCase())
   );
+
   const handleMenuClick = (menu) => {
     setSelectedMenu(menu);
   };
@@ -386,14 +433,26 @@ const AdminDashboard = () => {
                       {filteredData.map((user) => (
                         <div
                           key={user.id}
-                          className="w-full flex items-center gap-2 p-2 font-myFont leading-7 tracking-wide"
+                          className={`w-full flex items-center gap-2 p-2 font-myFont leading-7 tracking-wide cursor-pointer intern-name-div ${
+                            user.pk === activeUserId ? "active" : ""
+                          }`}
+                          onClick={() => handleUserClick(user.pk)}
+                          title={
+                            user.full_name === null
+                              ? user.email
+                              : user.full_name
+                          } // Tooltip for full text
                         >
-                          <div className="h-10 w-12 bg-blue-500 rounded-full flex items-center justify-center text-white">
-                            {user.full_name.charAt(0)}
+                          <div className="h-10 w-2/12 bg-blue-500 rounded-full flex items-center justify-center text-white">
+                            {user.full_name === null
+                              ? user.email.charAt(0)
+                              : user.full_name.charAt(0)}
                           </div>
-                          <div className="w-full">
-                            <p className="font-normal intern-name">
-                              {user.full_name}
+                          <div className="w-10/12">
+                            <p className="font-normal intern-name truncate">
+                              {user.full_name === null
+                                ? user.email
+                                : user.full_name}
                             </p>
                           </div>
                         </div>
@@ -401,7 +460,7 @@ const AdminDashboard = () => {
                     </div>
                   </div>
                   <div className="relative w-4/5 h-3/5 p-5 gap-6 bg-white flex flex-col rounded-xl attendance-detail">
-                    <div className="flex items-center p-5 gap-6 attendance-detail-text w-full  justify-start items-start">
+                    <div className="flex items-center p-5 gap-6 attendance-detail-text w-full justify-start items-start">
                       <FontAwesomeIcon icon={faList} />
                       <p>Attendance Details</p>
                     </div>
@@ -418,46 +477,59 @@ const AdminDashboard = () => {
                         onClick={goToNextMonth}
                       />
                     </div>
-                    <table className="w-full text-left border-collapse attendance-table">
-                      <thead className="text-white attendance-table-head">
-                        <tr>
-                          <th className="px-6 rounded-l-lg font-medium text-sm">
-                            Date
-                          </th>
-                          <th className="p-3 font-medium text-sm">Check In</th>
-                          <th className="p-3 font-medium text-sm">Check Out</th>
-                          <th className="p-3 rounded-r-lg font-medium text-sm">
-                            Total Time
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td className="p-2 font-myFont">2023-05-15</td>
-                          <td className="p-2 font-myFont">09:00 AM</td>
-                          <td className="p-2 font-myFont">05:00 PM</td>
-                          <td className="p-2 font-myFont">8h 0m</td>
-                        </tr>
-                        <tr className="border-t">
-                          <td className="p-2 font-myFont">2023-05-15</td>
-                          <td className="p-2 font-myFont">09:00 AM</td>
-                          <td className="p-2 font-myFont">05:00 PM</td>
-                          <td className="p-2 font-myFont">8h 0m</td>
-                        </tr>
-                        <tr className="border-t">
-                          <td className="p-2 font-myFont">2023-05-15</td>
-                          <td className="p-2 font-myFont">09:00 AM</td>
-                          <td className="p-2 font-myFont">05:00 PM</td>
-                          <td className="p-2 font-myFont">8h 0m</td>
-                        </tr>
-                        <tr className="border-b border-t">
-                          <td className="p-2 font-myFont">2023-05-15</td>
-                          <td className="p-2 font-myFont">09:00 AM</td>
-                          <td className="p-2 font-myFont">05:00 PM</td>
-                          <td className="p-2 font-myFont">8h 0m</td>
-                        </tr>
-                      </tbody>
-                    </table>
+                    <div className="overflow-auto">
+                      <table className="w-full text-left border-collapse attendance-table">
+                        <thead className="text-white attendance-table-head">
+                          <tr>
+                            <th className="px-6 rounded-l-lg font-medium text-sm">
+                              Attendance Date
+                            </th>
+                            <th className="p-3 font-medium text-sm">
+                              Check In
+                            </th>
+                            <th className="p-3 font-medium text-sm">
+                              Check Out
+                            </th>
+                            <th className="p-3 rounded-r-lg font-medium text-sm">
+                              Working Hours
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody style={{ maxHeight: "300px" }}>
+                          {" "}
+                          {/* Set maxHeight to control the body height */}
+                          {attendanceData && attendanceData.length > 0 ? (
+                            attendanceData.map((attendance) => (
+                              <tr key={attendance.id} className="border-t">
+                                <td className="p-2 font-myFont">
+                                  {attendance.attedence_date}
+                                </td>
+                                <td className="p-2 font-myFont">
+                                  {formatTime(attendance.in_time)}
+                                </td>
+                                <td className="p-2 font-myFont">
+                                  {formatTime(attendance.out_time)}
+                                </td>
+                                <td className="p-2 font-myFont">
+                                  {formatWorkingHours(
+                                    attendance.total_working_hour
+                                  )}
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td
+                                colSpan="4"
+                                className="p-2 font-myFont text-center"
+                              >
+                                No data
+                              </td>
+                            </tr>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -578,13 +650,17 @@ const AdminDashboard = () => {
                           <tr key={intern.name}>
                             <td className="p-3 font-myFont">{intern.id}</td>
                             <td className="p-3 font-myFont">
-                              {intern.full_name}
+                              {intern.full_name ? (
+                                intern.full_name
+                              ) : (
+                                <p>- - -</p>
+                              )}
                             </td>
                             <td className="p-3 font-myFont">{intern.email}</td>
                             <td className="p-3 font-myFont">150</td>
                             <td className="p-3 font-myFont">
                               <button
-                                className="rounded-3xl px-5 py-2 text-sm font-myFont  text-white hover:text-black view-button"
+                                className="rounded-3xl px-5 py-2 text-sm font-myFont  text-white view-button"
                                 style={{ backgroundColor: "#1C5A41" }}
                                 onClick={() =>
                                   handleNavigationButton(intern.pk)
@@ -593,7 +669,7 @@ const AdminDashboard = () => {
                                 View
                               </button>
                               <button
-                                className="rounded-3xl px-5 ml-5 py-2 text-sm font-myFont  text-white hover:text-black view-button"
+                                className="rounded-3xl px-5 ml-5 py-2 text-sm font-myFont  text-white view-button"
                                 style={{ backgroundColor: "#1C5A41" }}
                                 onClick={() => {
                                   handleAttendanceButton(intern.pk);

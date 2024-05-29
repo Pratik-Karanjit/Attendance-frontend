@@ -50,16 +50,22 @@ import {
   PENDING_ATTENDANCE_REQUEST_REQUEST,
   PENDING_ATTENDANCE_REQUEST_SUCCESS,
   PENDING_ATTENDANCE_REQUEST_FAIL,
-  PENDING_ATTENDANCE_REQUEST_RESET ,
+  PENDING_ATTENDANCE_REQUEST_RESET,
   PENDING_ATTENDANCE_DETAIL_REQUEST_REQUEST,
   PENDING_ATTENDANCE_DETAIL_REQUEST_SUCCESS,
   PENDING_ATTENDANCE_DETAIL_REQUEST_FAIL,
-  PENDING_ATTENDANCE_DETAIL_REQUEST_RESET, 
+  PENDING_ATTENDANCE_DETAIL_REQUEST_RESET,
   PENDING_ATTENDANCE_DELETE_REQUEST,
   PENDING_ATTENDANCE_DELETE_SUCCESS,
   PENDING_ATTENDANCE_DELETE_FAIL,
-  PENDING_ATTENDANCE_DELETE_RESET
+  PENDING_ATTENDANCE_DELETE_RESET,
+  ADMIN_ATTENDANCE_RESET,
 } from "../constants/attendanceConstants";
+import {
+  ADMIN_ATTENDANCE_FAIL,
+  ADMIN_ATTENDANCE_REQUEST,
+  ADMIN_ATTENDANCE_SUCCESS,
+} from "../constants/userConstants";
 
 export const inTimeReducer = (state = { inTime: [] }, action) => {
   switch (action.type) {
@@ -169,7 +175,10 @@ export const staffAttendanceReducer = (state = { Attendance: [] }, action) => {
   }
 };
 
-export const pendingAttendanceReducer = (state = { pendingData: [] }, action) => {
+export const pendingAttendanceReducer = (
+  state = { pendingData: [] },
+  action
+) => {
   switch (action.type) {
     case PENDING_ATTENDANCE_REQUEST_REQUEST:
       return { loading: true, success: false };
@@ -185,12 +194,19 @@ export const pendingAttendanceReducer = (state = { pendingData: [] }, action) =>
   }
 };
 
-export const pendingAttendanceDetailReducer = (state = { pendingDetailData: [] }, action) => {
+export const pendingAttendanceDetailReducer = (
+  state = { pendingDetailData: [] },
+  action
+) => {
   switch (action.type) {
     case PENDING_ATTENDANCE_DETAIL_REQUEST_REQUEST:
       return { loading: true, success: false };
     case PENDING_ATTENDANCE_DETAIL_REQUEST_SUCCESS:
-      return { loading: false, pendingDetailData: action.payload, success: true };
+      return {
+        loading: false,
+        pendingDetailData: action.payload,
+        success: true,
+      };
     case PENDING_ATTENDANCE_DETAIL_REQUEST_FAIL:
       return { loading: false, error: action.payload, success: false };
     case PENDING_ATTENDANCE_DETAIL_REQUEST_RESET:
@@ -201,12 +217,19 @@ export const pendingAttendanceDetailReducer = (state = { pendingDetailData: [] }
   }
 };
 
-export const pendingAttendanceDeleteReducer = (state = { pendingDataDelete: [] }, action) => {
+export const pendingAttendanceDeleteReducer = (
+  state = { pendingDataDelete: [] },
+  action
+) => {
   switch (action.type) {
     case PENDING_ATTENDANCE_DELETE_REQUEST:
       return { loading: true, success: false };
     case PENDING_ATTENDANCE_DELETE_SUCCESS:
-      return { loading: false, pendingDataDelete: action.payload, success: true };
+      return {
+        loading: false,
+        pendingDataDelete: action.payload,
+        success: true,
+      };
     case PENDING_ATTENDANCE_DELETE_FAIL:
       return { loading: false, error: action.payload, success: false };
     case PENDING_ATTENDANCE_DELETE_RESET:
@@ -216,9 +239,6 @@ export const pendingAttendanceDeleteReducer = (state = { pendingDataDelete: [] }
       return state;
   }
 };
-
-
-
 
 export const manualAttendanceReducer = (state = { manualData: [] }, action) => {
   switch (action.type) {
@@ -306,6 +326,22 @@ export const attendanceDetailReducer = (state = { detailData: [] }, action) => {
     case ATTENDANCE_DETAIL_FAIL:
       return { loading: false, error: action.payload, success: false };
     case ATTENDANCE_DETAIL_RESET:
+      return {};
+
+    default:
+      return state;
+  }
+};
+
+export const adminAttendance = (state = { detailData: [] }, action) => {
+  switch (action.type) {
+    case ADMIN_ATTENDANCE_REQUEST:
+      return { loading: true, success: false };
+    case ADMIN_ATTENDANCE_SUCCESS:
+      return { loading: false, detailData: action.payload, success: true };
+    case ADMIN_ATTENDANCE_FAIL:
+      return { loading: false, error: action.payload, success: false };
+    case ADMIN_ATTENDANCE_RESET:
       return {};
 
     default:
