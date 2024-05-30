@@ -28,6 +28,7 @@ import SettingsPage from "./SettingsPage";
 import { useDispatch, useSelector } from "react-redux";
 import UserProfilePage from "../../pages/AdminDash/UserProfilePage.jsx";
 import AddUserPage from "./AddUser.jsx";
+import AttendanceRequest from "./AttendanceRequest.jsx";
 
 const AdminDashboard = () => {
   const [selectedMenu, setSelectedMenu] = useState("dashboard");
@@ -46,7 +47,12 @@ const AdminDashboard = () => {
 
   const handleUserClick = (userId) => {
     setActiveUserId(userId);
-    HandleMonthUserAttendance(userId);
+    setCurrentMonth((prevMonth) => {
+      // Reset currentMonth to the current month
+      const currentMonth = new Date().getMonth() + 1;
+      dispatch(monthUserAttendance(userId, currentMonth, currentYear));
+      return currentMonth;
+    });
   };
 
   const [userListWithId, setUserListWithId] = useState([]);
@@ -146,22 +152,40 @@ const AdminDashboard = () => {
   };
 
   const goToPreviousMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(currentYear - 1);
-    } else {
-      setCurrentMonth(currentMonth - 1);
-    }
+    setCurrentMonth((prevMonth) => {
+      const newMonth = prevMonth === 1 ? 12 : prevMonth - 1;
+      const newYear = prevMonth === 1 ? currentYear - 1 : currentYear;
+      if (activeUserId !== null) {
+        dispatch(monthUserAttendance(activeUserId, newMonth, newYear));
+      }
+      console.log(`New Month after decrement: ${newMonth}, Year: ${newYear}`);
+      if (prevMonth === 1) {
+        setCurrentYear(newYear);
+      }
+      return newMonth;
+    });
   };
 
   const goToNextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(currentYear + 1);
-    } else {
-      setCurrentMonth(currentMonth + 1);
-    }
+    setCurrentMonth((prevMonth) => {
+      const newMonth = prevMonth === 12 ? 1 : prevMonth + 1;
+      const newYear = prevMonth === 12 ? currentYear + 1 : currentYear;
+      if (activeUserId !== null) {
+        dispatch(monthUserAttendance(activeUserId, newMonth, newYear));
+      }
+      console.log(`New Month after increment: ${newMonth}, Year: ${newYear}`);
+      if (prevMonth === 12) {
+        setCurrentYear(newYear);
+      }
+      return newMonth;
+    });
   };
+
+  useEffect(() => {
+    console.log(
+      `Current Month in useEffect: ${currentMonth}, Current Year in useEffect: ${currentYear}`
+    );
+  }, [currentMonth, currentYear]);
 
   const monthNames = [
     "January",
@@ -274,6 +298,27 @@ const AdminDashboard = () => {
                     }`}
                   >
                     Add User
+                  </p>
+                </div>
+
+                <div
+                  className={`flex gap-4 h-12 items-center rounded-l-3xl mt-5 cursor-pointer ${
+                    selectedMenu === "attendanceRequest" ? "selected-menu" : ""
+                  }`}
+                  onClick={() => handleMenuClick("attendanceRequest")}
+                >
+                  <FontAwesomeIcon
+                    className="h-5 pl-5 opacity-60"
+                    icon={faUserPlus}
+                  />
+                  <p
+                    className={`h-6 ${
+                      selectedMenu === "attendanceRequest"
+                        ? "text-white"
+                        : "text-slate-500"
+                    }`}
+                  >
+                    Attendance Request
                   </p>
                 </div>
 
@@ -470,7 +515,7 @@ const AdminDashboard = () => {
                         className="mr-2 cursor-pointer"
                         onClick={goToPreviousMonth}
                       />
-                      <p>{`${monthNames[currentMonth]} ${currentYear}`}</p>
+                      <p>{`${monthNames[currentMonth - 1]} ${currentYear}`}</p>
                       <FontAwesomeIcon
                         icon={faArrowRight}
                         className="ml-2 cursor-pointer"
@@ -612,21 +657,6 @@ const AdminDashboard = () => {
                         onChange={handleSearchInterns}
                       />
                     </div>
-
-                    <div className="absolute top-2 right-3 mt-2 mr-2 flex items-center bg-white p-2 rounded-md shadow month-div">
-                      <FontAwesomeIcon
-                        icon={faArrowLeft}
-                        className="mr-2 cursor-pointer"
-                        onClick={goToPreviousMonth}
-                      />
-
-                      <p>{`${monthNames[currentMonth]} ${currentYear}`}</p>
-                      <FontAwesomeIcon
-                        icon={faArrowRight}
-                        className="ml-2 cursor-pointer"
-                        onClick={goToNextMonth}
-                      />
-                    </div>
                     <table className="w-full text-left border-collapse intern-detail-table">
                       <thead className="text-white intern-table">
                         <tr>
@@ -657,7 +687,11 @@ const AdminDashboard = () => {
                               )}
                             </td>
                             <td className="p-3 font-myFont">{intern.email}</td>
-                            <td className="p-3 font-myFont">150</td>
+                            <td className="p-3 font-myFont">
+                              {Math.floor(
+                                intern.total_working_hours_current_month
+                              )}
+                            </td>
                             <td className="p-3 font-myFont">
                               <button
                                 className="rounded-3xl px-5 py-2 text-sm font-myFont  text-white view-button"
@@ -690,6 +724,8 @@ const AdminDashboard = () => {
             {selectedMenu === "settings" && <SettingsPage />}
 
             {selectedMenu === "addUser" && <AddUserPage />}
+
+            {selectedMenu === "attendanceRequest" && <AttendanceRequest />}
 
             {selectedMenu === "logout" && HandleDelete()}
           </div>

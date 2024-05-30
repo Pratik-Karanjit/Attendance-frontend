@@ -87,3 +87,9 @@
 .edit-card .change-password:hover {
   cursor: pointer;
 }
+
+@media (min-width: 200px) {
+  .container {
+    max-width: 100%;
+  }
+}

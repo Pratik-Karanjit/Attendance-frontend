@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./attendance.css";
 import { useDispatch, useSelector } from "react-redux";
 import { listAttendance } from "../../actions/userActions";
@@ -7,6 +7,7 @@ import Loader from "../Loader/Loader";
 import Message from "../Message/Message";
 
 function Attendance() {
+  const [extractedData, setExtractedData] = useState();
   const dispatch = useDispatch();
   const userLogin = useSelector((state) => state.userLogin);
   const userAttendance = useSelector((state) => state.userAttendance);
@@ -21,9 +22,19 @@ function Attendance() {
 
   const dailyAttendance = userAttendance.attendance?.daily_attendance || [];
 
+  useEffect(() => {
+    if (dailyAttendance && dailyAttendance.length > 0) {
+      const attendanceWithId = dailyAttendance.map((user, index) => ({
+        ...user,
+        id: index + 1,
+      }));
+      setExtractedData(attendanceWithId);
+    }
+  }, [dailyAttendance]);
+
   // Function to convert time string to standard AM/PM format
   const formatTime = (timeString) => {
-    if (!timeString) return "No data"; // Handle case when timeString is null or undefined
+    if (!timeString) return <p>- - -</p>; // Handle case when timeString is null or undefined
     const [hoursStr, minutesStr, secondsStr] = timeString.split(/[:.]/);
     let hours = parseInt(hoursStr, 10);
     const minutes = parseInt(minutesStr, 10);
@@ -48,7 +59,7 @@ function Attendance() {
 
   // Function to convert total working hour time string to total hours
   const calculateTotalHours = (timeString) => {
-    if (!timeString) return "No data"; // Handle case when timeString is null or undefined
+    if (!timeString) return <p>- - -</p>; // Handle case when timeString is null or undefined
     const [hoursStr, minutesStr, secondsStr] = timeString.split(/[:.]/);
     const hours = parseInt(hoursStr, 10);
     const minutes = parseInt(minutesStr, 10);
@@ -83,36 +94,46 @@ function Attendance() {
               <Loader />
             ) : (
               <>
-                {dailyAttendance.length > 0 ? (
-                  dailyAttendance.map((entry) => (
+                {extractedData?.length > 0 ? (
+                  extractedData.map((entry) => (
                     <tr key={entry.id}>
                       <td>{entry.id}</td>
                       <td>{entry.entry_date}</td>
                       <td>{formatTime(entry.in_time)}</td>
                       <td>
-                        {entry.first_break_in
-                          ? formatTime(entry.first_break_in)
-                          : "No Data"}
+                        {entry.first_break_in ? (
+                          formatTime(entry.first_break_in)
+                        ) : (
+                          <p>- - -</p>
+                        )}
                       </td>
                       <td>
-                        {entry.first_break_out
-                          ? formatTime(entry.first_break_out)
-                          : "No Data"}
+                        {entry.first_break_out ? (
+                          formatTime(entry.first_break_out)
+                        ) : (
+                          <p>- - -</p>
+                        )}
                       </td>
                       <td>
-                        {entry.first_break_in
-                          ? formatTime(entry.second_break_in)
-                          : "No Data"}
+                        {entry.first_break_in ? (
+                          formatTime(entry.second_break_in)
+                        ) : (
+                          <p>- - -</p>
+                        )}
                       </td>
                       <td>
-                        {entry.first_break_out
-                          ? formatTime(entry.second_break_out)
-                          : "No Data"}
+                        {entry.first_break_out ? (
+                          formatTime(entry.second_break_out)
+                        ) : (
+                          <p>- - -</p>
+                        )}
                       </td>
                       <td>
-                        {entry.out_time
-                          ? formatTime(entry.out_time)
-                          : "No Data"}
+                        {entry.out_time ? (
+                          formatTime(entry.out_time)
+                        ) : (
+                          <p>- - -</p>
+                        )}
                       </td>
                     </tr>
                   ))

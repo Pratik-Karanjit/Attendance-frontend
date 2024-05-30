@@ -30,6 +30,9 @@ import {
   USER_DELETE_SUCCESS,
   USER_DELETE_FAIL,
   USER_DELETE_RESET,
+  ATTENDANCE_REQUEST,
+  ATTENDANCE_REQUEST_SUCCESS,
+  ATTENDANCE_REQUEST_FAIL,
 } from "../constants/userConstants";
 
 export const userLoginReducer = (state = {}, action) => {
@@ -143,8 +146,8 @@ export const userDeleteReducer = (state = {}, action) => {
       return { loading: false, deleteData: action.payload, success: true };
     case USER_DELETE_FAIL:
       return { loading: false, error: action.payload, success: false };
-      case USER_DELETE_RESET:
-        return { };
+    case USER_DELETE_RESET:
+      return {};
     default:
       return state;
   }

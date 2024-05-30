@@ -1,3 +1,5 @@
+import Swal from "sweetalert2";
+import { BASE_BACKEND } from "../BaseUrl";
 import {
   ATTENDANCE_INTIME_REQUEST,
   ATTENDANCE_INTIME_SUCCESS,
@@ -58,6 +60,7 @@ import {
 } from "../constants/attendanceConstants";
 
 import axios from "axios";
+import { ATTENDANCE_REQUEST_SUCCESS } from "../constants/userConstants";
 
 export const InTime = () => async (dispatch, getState) => {
   try {
@@ -517,6 +520,7 @@ export const manualAttendanceRequest =
   }) =>
   async (dispatch, getState) => {
     try {
+      console.log("entered manual attendance entered");
       dispatch({
         type: MANUAL_ATTENDANCE_REQUEST_REQUEST,
       });
@@ -557,30 +561,53 @@ export const manualAttendanceRequest =
         type: MANUAL_ATTENDANCE_REQUEST_SUCCESS,
         payload: data,
       });
+      Swal.fire({
+        icon: "success",
+        title: "Attendance request success",
+        text: "Your attendance request has been sent successfully.",
+      });
     } catch (error) {
-      let errorMessage =
-        "Please make sure you have filled all the information as insructed.";
+      let errorHere;
 
-      if (error.response) {
-        const responseData = error.response.data;
-        if (responseData.non_field_errors) {
-          errorMessage = responseData.non_field_errors[0];
-        } else if (responseData.first_break_in) {
-          errorMessage = responseData.first_break_in[0];
-        } else if (responseData.first_break_out) {
-          errorMessage = responseData.first_break_out[0];
-        } else if (responseData.second_break_in) {
-          errorMessage = responseData.second_break_in[0];
-        } else if (responseData.second_break_out) {
-          errorMessage = responseData.second_break_out[0];
-        }
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.error &&
+        error.response.data.error.non_field_errors
+      ) {
+        errorHere = error.response.data.error.non_field_errors[0];
+      } else {
+        errorHere = "An unknown error occurred.";
       }
 
-      dispatch({
-        type: MANUAL_ATTENDANCE_REQUEST_FAIL,
-        payload: errorMessage,
+      console.log("error received", errorHere);
+
+      Swal.fire({
+        icon: "error",
+        title: "Manual Attendance Failed",
+        text: errorHere,
       });
     }
+
+    if (error.response) {
+      const responseData = error.response.data;
+      if (responseData.non_field_errors) {
+        errorMessage = responseData.non_field_errors[0];
+      } else if (responseData.first_break_in) {
+        errorMessage = responseData.first_break_in[0];
+      } else if (responseData.first_break_out) {
+        errorMessage = responseData.first_break_out[0];
+      } else if (responseData.second_break_in) {
+        errorMessage = responseData.second_break_in[0];
+      } else if (responseData.second_break_out) {
+        errorMessage = responseData.second_break_out[0];
+      }
+    }
+
+    dispatch({
+      type: MANUAL_ATTENDANCE_REQUEST_FAIL,
+      payload: errorHere,
+    });
   };
 
 export const deleteAttendance = (id) => async (dispatch, getState) => {

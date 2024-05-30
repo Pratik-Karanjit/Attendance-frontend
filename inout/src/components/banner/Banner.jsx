@@ -54,8 +54,7 @@ function Banner({
   } = userAttendance;
   const latestAttendance = attendance?.daily_attendance?.[0] ?? null;
 
-  
-  console.log("l "+latestAttendance);
+  console.log("l " + latestAttendance);
   const userBreak1InTime = useSelector((state) => state.break1In);
   const {
     loading: loadingbreak1in,
@@ -316,7 +315,8 @@ function Banner({
       {outTimePress && (
         <>
           <div className="pop-up-banner">
-            { (latestAttendance && !latestAttendance.in_time || latestAttendance==null  )  ? (
+            {(latestAttendance && !latestAttendance.in_time) ||
+            latestAttendance == null ? (
               <>
                 <div className="danger">
                   <h1>Enter your intime first!</h1>
@@ -694,7 +694,9 @@ function Banner({
           <h1>Welcome!</h1>
           {userLogin.userInfo ? (
             <h2 className="banner-email">
-              {userLogin.userInfo.user_data.email}
+              {userLogin.userInfo.user_data.full_name
+                ? userLogin.userInfo.user_data.full_name
+                : userLogin.userInfo.user_data.email}
             </h2>
           ) : (
             <h2>User</h2>
@@ -737,9 +739,11 @@ function Banner({
               <Message error={errorbreak2out} variant="error" />
             </div>
           )}
-          {
-           latestAttendance  && latestAttendance.in_time &&
-            userLogin.userInfo.user_data.role != "admin" &&   latestAttendance.attedence_date == todayDate && !latestAttendance.out_time && (
+          {latestAttendance &&
+            latestAttendance.in_time &&
+            userLogin.userInfo.user_data.role != "admin" &&
+            latestAttendance.attedence_date == todayDate &&
+            !latestAttendance.out_time && (
               <div className="intime-display">
                 <Message
                   inTime={`Intime :${formatTime(latestAttendance.in_time)}`}
@@ -785,7 +789,6 @@ function Banner({
                     <div
                       onClick={() => setInTimePress(true)}
                       className="intime"
-                     
                     >
                       <h3 style={{ color: "#423636" }}>In Time:</h3>
                       <div className="time">
@@ -941,8 +944,8 @@ function Banner({
                 <Link to="/register">
                   <div className="not-active">
                     <h2>
-                      <i className="fa fa-user-plus" aria-hidden="true"></i> <br />{" "}
-                      Add Staff{" "}
+                      <i className="fa fa-user-plus" aria-hidden="true"></i>{" "}
+                      <br /> Add Staff{" "}
                     </h2>
                   </div>
                 </Link>
