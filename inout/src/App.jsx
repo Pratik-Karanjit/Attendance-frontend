@@ -18,6 +18,7 @@ import AdminDashboard from "./pages/AdminDash/AdminDashboard";
 import InternProfile from "./pages/AdminDash/InternProfile";
 import UserProfilePage from "./pages/AdminDash/UserProfilePage";
 import InternAttendancePage from "./pages/AdminDash/InternAttendancePage";
+import AttendanceRequest from "./pages/AdminDash/AttendanceRequest";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/profile" element={<UserDetails />} />
         <Route path="/register" element={<Register />} />
         <Route path="/staffs" element={<StaffPage />} />
+        <Route path="/attendanceRequest" element={<AttendanceRequest />} />
         <Route path="/attendance" element={<AttendancePage />} />
         <Route path="/profile/update" element={<EditProfile />} />
         <Route path="/staffs/edit/:id" element={<UserEdit />} />

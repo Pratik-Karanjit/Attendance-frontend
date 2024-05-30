@@ -17,6 +17,7 @@ import {
 } from "../../constants/attendanceConstants";
 import SideMenu from "../sidebar/SideMenu";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 function CurrentDate({ sendPress, setSendPress }) {
   const [notFill, setNotFill] = useState(false);
@@ -153,6 +154,30 @@ function CurrentDate({ sendPress, setSendPress }) {
     return totalHours.toFixed(2);
   }
 
+  useEffect(() => {
+    if (successManualRequest) {
+      Swal.fire({
+        icon: "success",
+        title: "Attendance request success",
+        text: "Your attendance request has been sent successfully.",
+      });
+
+      // Clear form fields
+      setSelectedUser("");
+      setAttendanceDate("");
+      setInTimeManual("");
+      setFirstBreakIn("");
+      setFirstBreakOut("");
+      setSecondBreakIn("");
+      setSecondBreakOut("");
+      setOutTimeManual("");
+      setReason("");
+
+      // Dispatch reset action
+      dispatch({ type: MANUAL_ATTENDANCE_REQUEST_RESET });
+    }
+  }, [successManualRequest, dispatch]);
+
   const matchingAttendance =
     Attendance && selectedUser && Attendance.attendances
       ? Attendance.attendances.filter(
@@ -191,12 +216,8 @@ function CurrentDate({ sendPress, setSendPress }) {
       manualOutTime,
       reason,
     };
-    if (userLogin.userInfo.user_data.role != "intern") {
-      dispatch(manualAttendance(dataToSend));
-    }
-    if (userLogin.userInfo.user_data.role == "intern") {
-      dispatch(manualAttendanceRequest(dataToSendByIntern));
-    }
+
+    dispatch(manualAttendanceRequest(dataToSendByIntern));
 
     setSendPress(false);
   };
@@ -234,14 +255,14 @@ function CurrentDate({ sendPress, setSendPress }) {
 
   return (
     <>
-      {loadingManual ||
+      {/* {loadingManual ||
         (loadingManualRequest && (
           <>
             <div className="pop-up">
               <Loader />
             </div>
           </>
-        ))}
+        ))} */}
       {sendPress && (
         <>
           <div className="pop-up-manual-attendance">
@@ -286,7 +307,7 @@ function CurrentDate({ sendPress, setSendPress }) {
         </>
       )}
 
-{errorManualRequest&& (
+      {errorManualRequest && (
         <>
           <div className="error-approval">
             <Message error={errorManualRequest} />
@@ -301,55 +322,32 @@ function CurrentDate({ sendPress, setSendPress }) {
         </>
       )}
 
-{successManual && (
-              <>
-                <div className="pop-up-manual-attendance">
-                  {userLogin.userInfo.user_data.role != "intern" && (
-                    <>
-                      <div className="info">
-                        <h1>Manual attendance successfully done</h1>
-                        <div className="btns">
-                          <Link to={`/staffs/attendance/${selectedUser}`}>
-                            <button
-                              onClick={() =>
-                                dispatch({ type: MANUAL_ATTENDANCE_RESET })
-                              }
-                            >
-                              Ok
-                            </button>
-                          </Link>
-                        </div>
-                      </div>
-                    </>
-                  )}
-                </div>
-              </>
-            )}
-
-      {successManualRequest && (
+      {successManual && (
         <>
           <div className="pop-up-manual-attendance">
-            {userLogin.userInfo.user_data.role == "intern" && (
+            {userLogin.userInfo.user_data.role != "intern" && (
               <>
                 <div className="info">
-                  <h1>Manual attendance request successfully done</h1>
+                  <h1>Manual attendance successfully done</h1>
                   <div className="btns">
-                    <button
-                      onClick={() =>
-                        dispatch({ type: MANUAL_ATTENDANCE_REQUEST_RESET })
-                      }
-                    >
-                      Ok
-                    </button>
+                    <Link to={`/staffs/attendance/${selectedUser}`}>
+                      <button
+                        onClick={() =>
+                          dispatch({ type: MANUAL_ATTENDANCE_RESET })
+                        }
+                      >
+                        Ok
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </>
             )}
-
-           
           </div>
         </>
       )}
+
+      {successManualRequest && <></>}
 
       {userLogin.userInfo &&
         latestAttendance &&
@@ -395,7 +393,7 @@ function CurrentDate({ sendPress, setSendPress }) {
             successManual ||
             successManualRequest ||
             errorManualRequest
-              ? "blur manual-attendance"
+              ? "manual-attendance"
               : "manual-attendance"
           }
         >
@@ -403,7 +401,7 @@ function CurrentDate({ sendPress, setSendPress }) {
             {userLogin.userInfo &&
             userLogin.userInfo.user_data.role === "intern" ? (
               <>
-                <h1>Manual Attendance Request</h1>
+                <h1 className="font-bold text-xl">Manual Attendance Request</h1>
               </>
             ) : (
               <>
@@ -439,103 +437,174 @@ function CurrentDate({ sendPress, setSendPress }) {
                     </div>
                   </>
                 )}
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">Attendance Date(Required):</label>
+              <div className="flex flex-row w-full">
+                <div className="flex flex-col w-6/12">
+                  <div className="w-full">
+                    <label
+                      style={{ fontWeight: "normal", fontSize: "16px" }}
+                      htmlFor=""
+                    >
+                      Attendance Date <span style={{ color: "red" }}>*</span>
+                    </label>
+                  </div>
+                  <div className="w-full">
+                    <input
+                      className="w-full"
+                      value={attendanceDate}
+                      onChange={(event) =>
+                        setAttendanceDate(event.target.value)
+                      }
+                      type="date"
+                      required
+                    />
+                  </div>
                 </div>
-                <div className="value">
-                  <input
-                    value={attendanceDate}
-                    onChange={(event) => setAttendanceDate(event.target.value)}
-                    type="date"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">In Time (Required):</label>
-                </div>
-                <div className="value">
-                  <input
-                    value={inTimeManual}
-                    onChange={(event) => setInTimeManual(event.target.value)}
-                    type="time"
-                    required
-                  />
-                </div>
-              </div>
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">First Break In:</label>
-                </div>
-                <div className="value">
-                  <input
-                    value={firstBreakIn}
-                    onChange={(event) => setFirstBreakIn(event.target.value)}
-                    type="time"
-                  />
-                  {console.log(firstBreakIn)}
-                </div>
-              </div>
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">First Break Out:</label>
-                </div>
-                <div className="value">
-                  <input
-                    value={firstBreakOut}
-                    onChange={(event) => setFirstBreakOut(event.target.value)}
-                    type="time"
-                  />
-                </div>
-                {console.log(firstBreakOut)}
-              </div>
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">Second Break In:</label>
-                </div>
-                <div className="value">
-                  <input
-                    value={secondBreakIn}
-                    onChange={(event) => setSecondBreakIn(event.target.value)}
-                    type="time"
-                  />
+
+                <div className="w-6/12">
+                  <div className="flex flex-col w-full">
+                    <div className="w-full">
+                      <label
+                        style={{ fontWeight: "normal", fontSize: "16px" }}
+                        htmlFor=""
+                      >
+                        In Time <span style={{ color: "red" }}>*</span>
+                      </label>
+                    </div>
+                    <div className="w-full">
+                      <input
+                        className="w-full"
+                        value={inTimeManual}
+                        onChange={(event) =>
+                          setInTimeManual(event.target.value)
+                        }
+                        type="time"
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">Second Break Out:</label>
+
+              <div className="flex flex-row w-full">
+                <div className="flex flex-col w-6/12">
+                  <div className="w-full">
+                    <label
+                      style={{ fontWeight: "normal", fontSize: "16px" }}
+                      htmlFor=""
+                    >
+                      First Break In:
+                    </label>
+                  </div>
+                  <div className="w-full">
+                    <input
+                      className="w-full"
+                      value={firstBreakIn}
+                      onChange={(event) => setFirstBreakIn(event.target.value)}
+                      type="time"
+                    />
+                  </div>
                 </div>
-                <div className="value">
-                  <input
-                    value={secondBreakOut}
-                    onChange={(event) => setSecondBreakOut(event.target.value)}
-                    type="time"
-                  />
+
+                <div className="w-6/12">
+                  <div className="flex flex-col w-full">
+                    <div className="w-full">
+                      <label
+                        style={{ fontWeight: "normal", fontSize: "16px" }}
+                        htmlFor=""
+                      >
+                        First Break Out
+                      </label>
+                    </div>
+                    <div className="w-full">
+                      <input
+                        className="w-full"
+                        value={firstBreakOut}
+                        onChange={(event) =>
+                          setFirstBreakOut(event.target.value)
+                        }
+                        type="time"
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="field">
-                <div className="field-name">
-                  <label htmlFor="">Out Time (Required):</label>
+
+              <div className="flex flex-row w-full">
+                <div className="flex flex-col w-4/12">
+                  <div className="w-full">
+                    <label
+                      style={{ fontWeight: "normal", fontSize: "16px" }}
+                      htmlFor=""
+                    >
+                      Second Break In
+                    </label>
+                  </div>
+                  <div className="w-full">
+                    <input
+                      className="w-full"
+                      value={secondBreakIn}
+                      onChange={(event) => setSecondBreakIn(event.target.value)}
+                      type="time"
+                    />
+                  </div>
                 </div>
-                <div className="value">
-                  <input
-                    value={outTimeManual}
-                    onChange={(event) => setOutTimeManual(event.target.value)}
-                    type="time"
-                    required
-                  />
+                <div className="w-4/12">
+                  <div className="flex flex-col w-full">
+                    <div className="w-full">
+                      <label
+                        style={{ fontWeight: "normal", fontSize: "16px" }}
+                        htmlFor=""
+                      >
+                        Second Break Out
+                      </label>
+                    </div>
+                    <div className="w-full">
+                      <input
+                        className="w-full"
+                        value={secondBreakOut}
+                        onChange={(event) =>
+                          setSecondBreakOut(event.target.value)
+                        }
+                        type="time"
+                      />
+                    </div>
+                  </div>
+                </div>
+                <div className="w-4/12">
+                  <div className="flex flex-col w-full">
+                    <div className="w-full">
+                      <label
+                        style={{ fontWeight: "normal", fontSize: "16px" }}
+                        htmlFor=""
+                      >
+                        Out Time <span style={{ color: "red" }}>*</span>
+                      </label>
+                    </div>
+                    <div className="w-full">
+                      <input
+                        className="w-full"
+                        value={outTimeManual}
+                        onChange={(event) =>
+                          setOutTimeManual(event.target.value)
+                        }
+                        type="time"
+                        required
+                      />
+                    </div>
+                  </div>
                 </div>
               </div>
+
               {userLogin.userInfo &&
                 userLogin.userInfo.user_data.role === "intern" && (
                   <>
-                    <hr />
                     <div className="description">
-                      <label htmlFor="">Reason (Required):</label>
+                      <label htmlFor="">
+                        Reason<span style={{ color: "red" }}>*</span>
+                      </label>
                       <textarea
-                        placeholder="Write your Reason for manual attendance..."
+                        style={{ borderRadius: "10px" }}
+                        placeholder="Write your reason for manual attendance..."
                         name=""
                         id=""
                         cols="30"
@@ -548,12 +617,14 @@ function CurrentDate({ sendPress, setSendPress }) {
                   </>
                 )}
 
-              <div
-                onClick={() => setSendPress(true)}
-                style={{ cursor: "pointer" }}
-                className="btn"
-              >
-                <p>Send</p>
+              <div className="w-full flex items-end justify-end">
+                <button
+                  onClick={() => setSendPress(true)}
+                  style={{ cursor: "pointer" }}
+                  className="btn "
+                >
+                  Submit
+                </button>
               </div>
             </div>
           </div>

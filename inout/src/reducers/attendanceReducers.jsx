@@ -65,6 +65,8 @@ import {
   ADMIN_ATTENDANCE_FAIL,
   ADMIN_ATTENDANCE_REQUEST,
   ADMIN_ATTENDANCE_SUCCESS,
+  ATTENDANCE_REQUEST,
+  ATTENDANCE_REQUEST_SUCCESS,
 } from "../constants/userConstants";
 
 export const inTimeReducer = (state = { inTime: [] }, action) => {
@@ -256,6 +258,19 @@ export const manualAttendanceReducer = (state = { manualData: [] }, action) => {
   }
 };
 
+export const attendanceReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case ATTENDANCE_REQUEST_SUCCESS:
+      return {
+        ...state,
+        attendanceData: action.payload,
+        loading: false,
+        error: null,
+      };
+    default:
+      return state;
+  }
+};
 export const manualAttendanceRequestReducer = (
   state = { manualRequestData: [] },
   action
@@ -274,6 +289,29 @@ export const manualAttendanceRequestReducer = (
     case MANUAL_ATTENDANCE_REQUEST_RESET:
       return {};
 
+    default:
+      return state;
+  }
+};
+
+const initialState = {
+  loading: false,
+  error: null,
+  change: null,
+  success: false,
+};
+
+// Reducer function
+const updatePasswordReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case UPDATE_PASSWORD_REQUEST:
+      return { ...state, loading: true };
+    case UPDATE_PASSWORD_SUCCESS:
+      return { ...state, loading: false, success: true };
+    case UPDATE_PASSWORD_FAIL:
+      return { ...state, loading: false, error: action.payload };
+    case UPDATE_PASSWORD_RESET:
+      return initialState; // Reset state to initial state
     default:
       return state;
   }

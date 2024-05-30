@@ -77,7 +77,7 @@
   width: 100%;
 }
 
-.manual-attendance .attendance .form-attendance .field {
+.manual-attendance .attendance .form-attendance {
   display: flex;
   flex-direction: column;
 
@@ -169,13 +169,11 @@
   font-weight: 500;
 }
 
-.card-currentdate{
+.card-currentdate {
   display: flex;
   flex-direction: row;
   margin-bottom: 8px;
-  
 }
-
 
 .blur {
   filter: blur(10px);
@@ -185,9 +183,6 @@
   background-color: white;
   border-radius: 10px;
   padding: 10px 10px;
- 
-
-
 }
 .card-currentdate .colon {
   font-size: 22px;
@@ -198,13 +193,12 @@
   background-color: white;
   border-radius: 10px;
   padding: 10px 10px;
- 
+
   display: flex;
   text-align: center;
   flex-direction: column;
   justify-content: start;
   align-items: start;
-
 }
 
 .card-currentdate .row {
@@ -214,31 +208,24 @@
   gap: 5px;
 }
 
-.card-currentdate .row .loader{
+.card-currentdate .row .loader {
   background-color: transparent;
   scale: 0.4;
-
 }
 
 .card-currentdate .row .year {
-
-
   color: #c55c5c;
   font-size: 20px;
   font-weight: 700;
   border-radius: 5px;
 }
 .card-currentdate .row .month {
-
-
   color: #e0a23a;
   font-size: 20px;
   border-radius: 5px;
   font-weight: 700;
 }
 .card-currentdate .row .day {
-
-
   color: #a85097;
   font-size: 20px;
   font-weight: 700;
@@ -263,9 +250,7 @@
     width: 90%;
   }
 
-  .header .card-currentdate  {
-display: none;
+  .header .card-currentdate {
+    display: none;
   }
-
-
 }

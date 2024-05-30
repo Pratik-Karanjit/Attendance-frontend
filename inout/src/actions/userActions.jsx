@@ -36,6 +36,8 @@ import {
   ADMIN_ATTENDANCE_REQUEST,
   ADMIN_ATTENDANCE_SUCCESS,
   ADMIN_ATTENDANCE_FAIL,
+  ATTENDANCE_REQUEST,
+  ATTENDANCE_REQUEST_SUCCESS,
 } from "../constants/userConstants";
 
 import {
@@ -296,8 +298,8 @@ export const updatePassword =
         `${BASE_BACKEND}/users/change_password/`,
         {
           old_password: oldPassword,
-          password: password1,
-          password2: password2,
+          new_password: password1,
+          confirm_password: password2,
         },
         config
       );
@@ -305,6 +307,12 @@ export const updatePassword =
       dispatch({
         type: UPDATE_PASSWORD_SUCCESS,
         payload: data,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Change Password",
+        text: "Your password has been updated successfully.",
       });
     } catch (error) {
       dispatch({
@@ -352,10 +360,47 @@ export const listAttendance = () => async (dispatch, getState) => {
   }
 };
 
-export const monthUserAttendance = (internId) => async (dispatch, getState) => {
+export const monthUserAttendance =
+  (internId, month, year) => async (dispatch, getState) => {
+    try {
+      dispatch({
+        type: ADMIN_ATTENDANCE_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${userInfo.Token}`,
+        },
+      };
+
+      const { data } = await axios.post(
+        `${BASE_BACKEND}/month_user_attedence/`,
+        { user_id: internId, month: month, year: year },
+        config
+      );
+      dispatch({
+        type: ADMIN_ATTENDANCE_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ADMIN_ATTENDANCE_FAIL,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+export const attendanceRequest = () => async (dispatch, getState) => {
   try {
     dispatch({
-      type: ADMIN_ATTENDANCE_REQUEST,
+      type: ATTENDANCE_REQUEST,
     });
     const {
       userLogin: { userInfo },
@@ -368,13 +413,12 @@ export const monthUserAttendance = (internId) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(
-      `${BASE_BACKEND}/month_user_attedence/`,
-      { user_id: internId },
+    const { data } = await axios.get(
+      `${BASE_BACKEND}/attedence_request/`,
       config
     );
     dispatch({
-      type: ADMIN_ATTENDANCE_SUCCESS,
+      type: ATTENDANCE_REQUEST_SUCCESS,
       payload: data,
     });
   } catch (error) {

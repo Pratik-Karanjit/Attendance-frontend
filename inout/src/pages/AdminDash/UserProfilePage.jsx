@@ -15,6 +15,17 @@ const UserProfilePage = () => {
   );
   console.log("userDetails", userEmail);
 
+  const userRole = useSelector(
+    (state) => state?.userLogin?.userInfo?.user_data.role
+  );
+
+  const userDepartment = useSelector(
+    (state) => state.userLogin.userInfo.user_data.department_name
+  );
+  const userName = useSelector(
+    (state) => state?.userDetails?.userDetail?.full_name
+  );
+
   useEffect(() => {
     dispatch(userDetails(id));
   }, []);
@@ -55,11 +66,13 @@ const UserProfilePage = () => {
                   Full Name
                 </p>
                 <div className="relative w-full">
-                  <input
-                    className="w-full rounded-lg h-12 border pl-10 custom-input"
+                  <div
+                    className="w-full rounded-lg h-12 border pl-10 custom-input flex justify-start"
                     type="text"
                     placeholder="Full Name"
-                  />
+                  >
+                    {userName ? userName : <p>- - -</p>}
+                  </div>
                   <FontAwesomeIcon
                     icon={faUser}
                     style={{
@@ -76,12 +89,9 @@ const UserProfilePage = () => {
                   Email
                 </p>
                 <div className="relative w-full">
-                  <input
-                    className="w-full rounded-lg h-12 border pl-10 custom-input"
-                    type="email"
-                    placeholder="Email"
-                    value={userEmail}
-                  />
+                  <div className="w-full rounded-lg h-12 border pl-10 custom-input flex justify-start">
+                    {userEmail}
+                  </div>
                   <FontAwesomeIcon
                     icon={faEnvelope}
                     style={{
@@ -93,20 +103,25 @@ const UserProfilePage = () => {
                     }}
                   />
                 </div>
-                <p className="mt-5 font-myFont text-sm  w-full text-start">
-                  Role
-                </p>
-                <select
-                  className="w-full rounded-lg h-12 pl-3 border"
-                  defaultValue=""
-                >
-                  <option value="" disabled hidden>
-                    Select Role
-                  </option>
-                  <option value="admin">Admin</option>
-                  <option value="user">Intern</option>
-                  <option value="superAdmin">Super Admin</option>
-                </select>
+                <div className="w-full flex flex-row">
+                  <div className="w-6/12">
+                    <p className="mt-5 font-myFont text-sm  w-full text-start">
+                      Role
+                    </p>
+
+                    <div className="w-full flex items-start justify-start rounded-lg h-12 pl-3 border">
+                      {userRole}
+                    </div>
+                  </div>
+                  <div className="w-6/12">
+                    <p className="mt-5 font-myFont text-sm w-full text-start">
+                      Department
+                    </p>
+                    <div className="w-full flex items-start justify-start rounded-lg h-12 pl-3 border">
+                      {userDepartment}
+                    </div>
+                  </div>
+                </div>
                 <div className="flex flex-row gap-5 mt-5 justify-end w-full">
                   <button
                     className="w-1/5 rounded-lg h-12 font-semibold text-sm border border-orange-200 custom-cancel"

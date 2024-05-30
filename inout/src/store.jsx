@@ -30,6 +30,7 @@ import {
   pendingAttendanceReducer,
   pendingAttendanceDeleteReducer,
   adminAttendance,
+  attendanceReducer,
 } from "./reducers/attendanceReducers";
 import { deleteAttendance } from "./actions/attendanceActions";
 
@@ -58,6 +59,7 @@ const reducer = combineReducers({
   pendingAttendance: pendingAttendanceReducer,
   pendingDeletion: pendingAttendanceDeleteReducer,
   adminAttendance: adminAttendance,
+  attendanceReducer: attendanceReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")
