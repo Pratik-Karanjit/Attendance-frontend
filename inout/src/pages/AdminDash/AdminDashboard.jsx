@@ -236,8 +236,9 @@ const AdminDashboard = () => {
               />
             </div>
             <div className="flex justify-end ">
-              <div className="h-3/6 mt-20 w-5/6 rounded-l-3xl  ">
+              <div className="h-3/6 mt-20 w-5/6 rounded-l-3xl">
                 <div
+                  id="menu-dashboard" // Added id
                   className={`flex gap-4 h-12 items-center rounded-l-3xl cursor-pointer ${
                     selectedMenu === "dashboard" ? "selected-menu" : ""
                   }`}
@@ -260,6 +261,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div
+                  id="menu-intern" // Added id
                   className={`flex gap-4 h-12 items-center rounded-l-3xl mt-5 cursor-pointer ${
                     selectedMenu === "intern" ? "selected-menu" : ""
                   }`}
@@ -281,6 +283,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div
+                  id="menu-addUser" // Added id
                   className={`flex gap-4 h-12 items-center rounded-l-3xl mt-5 cursor-pointer ${
                     selectedMenu === "addUser" ? "selected-menu" : ""
                   }`}
@@ -302,6 +305,7 @@ const AdminDashboard = () => {
                 </div>
 
                 <div
+                  id="menu-attendanceRequest" // Added id
                   className={`flex gap-4 h-12 items-center rounded-l-3xl mt-5 cursor-pointer ${
                     selectedMenu === "attendanceRequest" ? "selected-menu" : ""
                   }`}
@@ -330,9 +334,10 @@ const AdminDashboard = () => {
           <div className="w-full">
             <div className="flex justify-end">
               <div
+                id="menu-settings" // Added id
                 className={`flex gap-4 h-12 items-center rounded-l-3xl text-black cursor-pointer font-myFont ${
                   selectedMenu === "settings" ? "selected-menu" : ""
-                } mb-4`} // Added mb-4 class here
+                } mb-4`}
                 style={{ width: "80%" }}
                 onClick={() => handleMenuClick("settings")}
               >
@@ -352,7 +357,8 @@ const AdminDashboard = () => {
             {/* Logout button container */}
             <div className="flex justify-end items-end">
               <div
-                className={` flex gap-4 h-12 items-center rounded-l-3xl text-black cursor-pointer font-myFont mb-20 ${
+                id="menu-logout" // Added id
+                className={`flex gap-4 h-12 items-center rounded-l-3xl text-black cursor-pointer font-myFont mb-20 ${
                   selectedMenu === "logout" ? "selected-menu" : ""
                 }`}
                 style={{ width: "80%" }}
@@ -666,7 +672,9 @@ const AdminDashboard = () => {
                           <th className="px-3  font-medium text-sm">
                             Full Name
                           </th>
-                          <th className="px-3 font-medium text-sm">Email</th>
+                          <th className="px-3 font-medium text-sm xxl:w-3/6 email-th">
+                            Email
+                          </th>
                           <th className="p-3  font-medium text-sm">
                             Total Hours
                           </th>
@@ -686,31 +694,35 @@ const AdminDashboard = () => {
                                 <p>- - -</p>
                               )}
                             </td>
-                            <td className="p-3 font-myFont">{intern.email}</td>
+                            <td className="p-3 font-myFont email-td">
+                              {intern.email}
+                            </td>
                             <td className="p-3 font-myFont">
                               {Math.floor(
                                 intern.total_working_hours_current_month
                               )}
                             </td>
                             <td className="p-3 font-myFont">
-                              <button
-                                className="rounded-3xl px-5 py-2 text-sm font-myFont  text-white view-button"
-                                style={{ backgroundColor: "#1C5A41" }}
-                                onClick={() =>
-                                  handleNavigationButton(intern.pk)
-                                }
-                              >
-                                View
-                              </button>
-                              <button
-                                className="rounded-3xl px-5 ml-5 py-2 text-sm font-myFont  text-white view-button"
-                                style={{ backgroundColor: "#1C5A41" }}
-                                onClick={() => {
-                                  handleAttendanceButton(intern.pk);
-                                }}
-                              >
-                                Attendance
-                              </button>
+                              <div className="l:flex l:flex-row vsm:l:flex vsm:flex-col">
+                                <button
+                                  className="rounded-3xl px-5 py-2 text-sm font-myFont  text-white view-button"
+                                  style={{ backgroundColor: "#1C5A41" }}
+                                  onClick={() =>
+                                    handleNavigationButton(intern.pk)
+                                  }
+                                >
+                                  View
+                                </button>
+                                <button
+                                  className="rounded-3xl px-5 ml-5 py-2 text-sm font-myFont  text-white view-button"
+                                  style={{ backgroundColor: "#1C5A41" }}
+                                  onClick={() => {
+                                    handleAttendanceButton(intern.pk);
+                                  }}
+                                >
+                                  Attendance
+                                </button>
+                              </div>
                             </td>
                           </tr>
                         ))}

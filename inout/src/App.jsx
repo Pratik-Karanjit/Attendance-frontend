@@ -19,6 +19,7 @@ import InternProfile from "./pages/AdminDash/InternProfile";
 import UserProfilePage from "./pages/AdminDash/UserProfilePage";
 import InternAttendancePage from "./pages/AdminDash/InternAttendancePage";
 import AttendanceRequest from "./pages/AdminDash/AttendanceRequest";
+import AttendanceRequestDetail from "./pages/AdminDash/AttendanceRequestDetail";
 
 function App() {
   return (
@@ -40,6 +41,10 @@ function App() {
         <Route
           path="/userProfilePage/:internId"
           element={<UserProfilePage />}
+        />
+        <Route
+          path="/attendanceRequestDetail/:internId"
+          element={<AttendanceRequestDetail />}
         />
         <Route
           path="/internAttendancePage/:internId"

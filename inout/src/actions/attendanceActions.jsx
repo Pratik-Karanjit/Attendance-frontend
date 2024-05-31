@@ -57,10 +57,14 @@ import {
   PENDING_ATTENDANCE_DELETE_REQUEST,
   PENDING_ATTENDANCE_DELETE_SUCCESS,
   PENDING_ATTENDANCE_DELETE_FAIL,
+  ACCEPT_PENDING_REQUEST,
+  PENDING_ATTENDANCE_ACCEPT_SUCCESS,
+  ACCEPT_PENDING_FAILED,
 } from "../constants/attendanceConstants";
 
 import axios from "axios";
 import { ATTENDANCE_REQUEST_SUCCESS } from "../constants/userConstants";
+import { useNavigate } from "react-router-dom";
 
 export const InTime = () => async (dispatch, getState) => {
   try {
@@ -364,6 +368,95 @@ export const pendingRequest = (id) => async (dispatch, getState) => {
     });
   }
 };
+
+export const acceptPendingRequest =
+  (pk, status, navigate) => async (dispatch, getState) => {
+    try {
+      console.log("entered acceptPendingRequest");
+      console.log("pk of attendance action", pk);
+      console.log("status of attendance action", status);
+      dispatch({
+        type: ACCEPT_PENDING_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${userInfo.Token}`,
+        },
+      };
+      console.log("config", config);
+      const { data } = await axios.put(
+        `${BASE_BACKEND}/attedence_request/${pk}/`,
+        { status: status },
+
+        config
+      );
+      dispatch({
+        type: PENDING_ATTENDANCE_ACCEPT_SUCCESS,
+        payload: data,
+      });
+      Swal.fire({
+        icon: "success",
+        title: "Attendance request success",
+        text: "Intern attendance has been successfully accepted.",
+      }).then(() => {
+        navigate("/adminDashboard");
+      });
+    } catch (error) {
+      dispatch({
+        type: ACCEPT_PENDING_FAILED,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
+
+export const rejectPendingRequest =
+  (pk, status) => async (dispatch, getState) => {
+    try {
+      console.log("entered acceptPendingRequest");
+      console.log("pk of attendance action", pk);
+      console.log("status of attendance action", status);
+      dispatch({
+        type: ACCEPT_PENDING_REQUEST,
+      });
+      const {
+        userLogin: { userInfo },
+      } = getState();
+
+      const config = {
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Token ${userInfo.Token}`,
+        },
+      };
+      console.log("config", config);
+      const { data } = await axios.put(
+        `${BASE_BACKEND}/attedence_request/${pk}/`,
+        { status: status },
+
+        config
+      );
+      dispatch({
+        type: PENDING_ATTENDANCE_ACCEPT_SUCCESS,
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: ACCEPT_PENDING_FAILED,
+        payload:
+          error.response && error.response.data.detail
+            ? error.response.data.detail
+            : error.message,
+      });
+    }
+  };
 
 export const pendingDelete = (id) => async (dispatch, getState) => {
   try {
